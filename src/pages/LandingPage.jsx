@@ -90,6 +90,18 @@ const LandingPage = () => {
       <div className="text-sm bg-gray-50 text-secondary text-center p-5 mt-5">
         Made with Legend❤️... Happy Coding
       </div>
+
+      <Modal isOpen={openAuthModal}
+      onclose={() => {
+        setOpenAuthModal(false);
+        setCurrentPage("login")
+      }}
+      hideHeader
+      >
+        <div className="">
+
+        </div>
+      </Modal>
     </div>
   );
 };
