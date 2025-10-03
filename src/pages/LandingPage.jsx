@@ -8,7 +8,7 @@ import Modal from "../components/Modal";
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [openAuthModal, setOpenAuthModal] = useState(true);
   const [currentPage, setCurrentPage] = useState("login");
 
   const handleCTA = () => {};
