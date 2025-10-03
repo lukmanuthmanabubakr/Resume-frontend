@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import HERO_IMG from "../assets/Resumeheaderimg.jpeg";
 import { useNavigate } from "react-router-dom";
+import Login from "./Auth/Login";
+import SignUp from "./Auth/SignUp";
+import Modal from "../components/Modal";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -91,15 +94,19 @@ const LandingPage = () => {
         Made with Legend❤️... Happy Coding
       </div>
 
-      <Modal isOpen={openAuthModal}
-      onclose={() => {
-        setOpenAuthModal(false);
-        setCurrentPage("login")
-      }}
-      hideHeader
+      <Modal
+        isOpen={openAuthModal}
+        onclose={() => {
+          setOpenAuthModal(false);
+          setCurrentPage("login");
+        }}
+        hideHeader
       >
-        <div className="">
-
+        <div>
+          {currentPage === "login" && <Login setCurrentPage={setCurrentPage} />}
+          {currentPage === "signup" && (
+            <SignUp setCurrentPage={setCurrentPage} />
+          )}
         </div>
       </Modal>
     </div>
