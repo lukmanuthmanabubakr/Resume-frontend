@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Input from "../../components/inputs/Input";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
@@ -25,38 +26,24 @@ const Login = ({ setCurrentPage }) => {
           </p>
         )}
 
-        <div className="space-y-1">
-          <label htmlFor="email" className="text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#7182ff] transition"
-          />
-        </div>
-
-        <div className="space-y-1">
-          <label
-            htmlFor="password"
-            className="text-sm font-medium text-gray-700"
-          >
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-[#3cff52] transition"
-          />
-        </div>
+        <Input
+          value={email}
+          onChange={({ target }) => setEmail(target.value)}
+          label="Email Address"
+          placeholder="sample@gmail.com"
+          type="text"
+        />
+        <Input
+          value={email}
+          onChange={({ target }) => setEmail(target.value)}
+          label="Email Address"
+          placeholder="sample@gmail.com"
+          type="password"
+        />
 
         <button
           type="button"
-          className="w-full py-2.5 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-all"
+          className="w-full py-2.5 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-all cursor-pointer"
         >
           Log In
         </button>
@@ -65,7 +52,7 @@ const Login = ({ setCurrentPage }) => {
           Don't have an account ?{" "}
           <button
             type="button"
-            className="text-[#7182ff] font-medium hover:underline"
+            className="text-[#7182ff] font-medium hover:underline cursor-pointer"
             onClick={() => setCurrentPage("signup")}
           >
             Sign Up
