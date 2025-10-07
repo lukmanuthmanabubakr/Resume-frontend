@@ -8,7 +8,9 @@ const Login = ({ setCurrentPage }) => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const handleLogin = async (e) => {};
+  const handleLogin = async (e) => {
+    
+  };
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
