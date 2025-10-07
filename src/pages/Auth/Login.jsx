@@ -34,10 +34,10 @@ const Login = ({ setCurrentPage }) => {
           type="text"
         />
         <Input
-          value={email}
-          onChange={({ target }) => setEmail(target.value)}
-          label="Email Address"
-          placeholder="sample@gmail.com"
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+          label="Password"
+          placeholder="Min 8 characters"
           type="password"
         />
 
