@@ -31,25 +31,27 @@ const SignUp = ({ setCurrentPage }) => {
 
     setError("");
 
-    // Signup API call
     try {
-      // your signup logic here
+      // signup logic here
     } catch (error) {
       setError("Something went wrong. Please try again.");
     }
   };
 
   return (
-    <div className="w-[90%] max-w-sm mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-      <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center">
+    <div className="w-[90%] max-w-sm mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-6">
+      <h3 className="text-lg sm:text-xl font-bold text-gray-900 text-center">
         Create an Account
       </h3>
-      <p className="text-gray-600 text-center mt-1 mb-5 text-sm sm:text-base">
+      <p className="text-gray-600 text-center mt-1 mb-3 text-xs sm:text-sm">
         Join us today by entering your details below
       </p>
 
-      <form onSubmit={handleSignUp} className="space-y-4">
-        <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+      <form onSubmit={handleSignUp} className="space-y-3">
+        <div className="flex justify-center mb-2">
+          <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
+        </div>
+
         <Input
           value={fullName}
           onChange={({ target }) => setFullName(target.value)}
@@ -71,20 +73,21 @@ const SignUp = ({ setCurrentPage }) => {
           placeholder="Min 8 characters"
           type="password"
         />
+
         {error && (
-          <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md p-2">
+          <p className="text-xs text-red-500 bg-red-50 border border-red-200 rounded-md p-2">
             {error}
           </p>
         )}
 
         <button
           type="submit"
-          className="w-full py-2 bg-black text-white font-semibold rounded-lg hover:bg-purple-100 hover:text-black transition-all cursor-pointer"
+          className="w-full py-2 bg-black text-white text-sm font-semibold rounded-md hover:bg-purple-100 hover:text-black transition-all cursor-pointer"
         >
           Sign Up
         </button>
 
-        <p className="text-center text-gray-600 text-sm mt-3">
+        <p className="text-center text-gray-600 text-xs mt-2">
           Already have an account?{" "}
           <button
             type="button"
