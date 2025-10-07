@@ -25,10 +25,7 @@ const Login = ({ setCurrentPage }) => {
 
     //Login Api call
     try {
-      
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   return (
@@ -41,12 +38,6 @@ const Login = ({ setCurrentPage }) => {
       </p>
 
       <form onSubmit={handleLogin} className="space-y-5">
-        {error && (
-          <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md p-2">
-            {error}
-          </p>
-        )}
-
         <Input
           value={email}
           onChange={({ target }) => setEmail(target.value)}
@@ -61,10 +52,14 @@ const Login = ({ setCurrentPage }) => {
           placeholder="Min 8 characters"
           type="password"
         />
-
+        {error && (
+          <p className="text-sm text-red-500 bg-red-50 border border-red-200 rounded-md p-2">
+            {error}
+          </p>
+        )}
         <button
-          type="button"
-          className="w-full py-2.5 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition-all cursor-pointer"
+          type="submit"
+          className="w-full py-2.5 bg-black text-white font-semibold rounded-lg hover:bg-purple-100 hover:text-black transition-all cursor-pointer"
         >
           Log In
         </button>
@@ -73,7 +68,7 @@ const Login = ({ setCurrentPage }) => {
           Don't have an account ?{" "}
           <button
             type="button"
-            className="text-[#7182ff] font-medium hover:underline cursor-pointer"
+            className="text-[#7182ff] font-medium hover:underline  cursor-pointer"
             onClick={() => setCurrentPage("signup")}
           >
             Sign Up
