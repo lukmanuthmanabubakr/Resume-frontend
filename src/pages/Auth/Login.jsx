@@ -68,7 +68,7 @@ const Login = ({ setCurrentPage }) => {
           Don't have an account ?{" "}
           <button
             type="button"
-            className="text-[#7182ff] font-medium hover:underline  cursor-pointer"
+            className="text-[#af71ff] font-medium hover:underline  cursor-pointer"
             onClick={() => setCurrentPage("signup")}
           >
             Sign Up
