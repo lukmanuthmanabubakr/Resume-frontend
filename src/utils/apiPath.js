@@ -1,4 +1,4 @@
-export const BSE_URL = "http://localhost:4600";
+export const BASE_URL = "http://localhost:4600";
 
 export const API_PATHS = {
   AUTH: {

@@ -1,24 +1,19 @@
-import React, {
-  CreateContext,
-  useState,
-  useEffect,
-  createContext,
-} from "react";
+import React, { useState, useEffect, createContext } from "react";
 import axiosInstance from "../utils/axiosInstance.js";
 import { API_PATHS } from "../utils/apiPath.js";
 
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-  const { user, setUser } = useState(null);
-  const { loading, setLoading } = useState(true); //New State to track loading
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(); //New State to track loading
 
   useEffect(() => {
     if (user) return;
 
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
-      setLoading(false);
+      setLoading();
       return;
     }
     const fetchUser = async () => {
@@ -35,9 +30,22 @@ const UserProvider = ({ children }) => {
     fetchUser();
   }, []);
 
+  const updateUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem("token", userData.token); //Save token
+    setLoading(false);
+  };
+
+  const clearUser = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+
   return (
     <UserContext.Provider value={{ user, loading, updateUser, clearUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export default UserProvider;
