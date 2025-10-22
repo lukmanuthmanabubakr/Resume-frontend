@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/Input";
 import { validateEmail } from "../../utils/helper";
+import { UserContext } from "../../context/userContext";
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ const Login = ({ setCurrentPage }) => {
 
     //Login Api call
     try {
+      
     } catch (error) {}
   };
 
