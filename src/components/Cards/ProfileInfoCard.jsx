@@ -12,12 +12,24 @@ const ProfileInfoCard = () => {
     navigate("/");
   };
   return (
-    <div className="">
-      <img src={user.profileImageUrl} alt="" className="" />
-      <div>
-        
+    user && (
+      <div className="flex items-center">
+        <img
+          src={user.profileImageUrl}
+          alt=""
+          className="w-11 h-11 bg-gray-300 rounded-full mr-3"
+        />
+        <div className="text-[15px] font-bold leading-3">
+          <div>{user.name || ""}</div>
+          <button
+            className="text-purple-500 text-sm font-semibold cursor-pointer hover:underline"
+            onClick={handleLogout}
+          >
+            Log Out
+          </button>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
