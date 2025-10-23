@@ -50,16 +50,28 @@ const Dashboard = () => {
         {/* Resume Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Add New Resume Card */}
+          {/* Add New Resume Card */}
           <div
             onClick={() => setOpenCreateModal(true)}
-            className="group border border-dashed border-gray-300 bg-gray-50 hover:bg-[#f6f1ff] rounded-xl flex flex-col items-center justify-center p-10 cursor-pointer transition-all"
+            className="group relative border border-dashed border-gray-300 bg-gray-50 hover:bg-[#f6f1ff] 
+             rounded-[8px] overflow-hidden shadow-sm hover:shadow-xl 
+             flex flex-col items-center justify-center cursor-pointer 
+             transition-all duration-300 hover:scale-[1.02]"
+            style={{
+              aspectRatio: "1 / 1.414", // same A4-like ratio as ResumeSummaryCard
+              maxHeight: "360px",
+            }}
           >
-            <div className="w-14 h-14 rounded-full bg-[#af71ff]/10 flex items-center justify-center mb-3 group-hover:bg-[#af71ff]/20">
-              <Plus className="text-[#af71ff]" size={28} />
+            <div className="w-16 h-16 rounded-full bg-[#af71ff]/10 flex items-center justify-center mb-3 group-hover:bg-[#af71ff]/20 transition-all">
+              <Plus className="text-[#af71ff]" size={32} />
             </div>
-            <h3 className="text-sm font-semibold text-gray-700 group-hover:text-[#af71ff]">
+
+            <h3 className="text-base font-semibold text-gray-700 group-hover:text-[#af71ff] transition-all">
               Add New Resume
             </h3>
+
+            {/* A subtle overlay to match hover depth of other cards */}
+            <div className="absolute inset-0 bg-[#af71ff]/0 group-hover:bg-[#af71ff]/5 transition-all duration-300 rounded-[8px]"></div>
           </div>
 
           {/* Existing Resumes */}
