@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   LuArrowLeft,
@@ -11,6 +11,7 @@ import {
 import toast from "react-hot-toast";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import TitleInput from "../../components/inputs/TitleInput";
+import { useReactToPrint } from "react-to-print";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -106,13 +107,47 @@ const EditResume = () => {
   const renderForm = () => {};
 
   //Update simple nexted object (like profileInfo, contactInfo etc...)
-  const updateSection = (section, key, value) => {
-
-  }
+  const updateSection = (section, key, value) => {};
   //Update array item (like workexperince, skills etc...)
-  const updateArrayItem = (section, index, key, value) => {
+  const updateArrayItem = (section, index, key, value) => {};
 
-  }
+  //Add item to array
+  const addArrayItem = (section, newItem) => {};
+
+  //Remove item to array
+  const removeArrayItem = (section, newItem) => {};
+
+  //Fetch resume info by ID
+  const fetchResumeDetailsById = (async) => {
+    
+  };
+
+  //Upload thumbnail and resume profile img
+  const uploadResumeImages = async () => {};
+
+  const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {};
+
+  //Delete Resume
+  const handleDeleteResume = async () => {};
+
+  //Download Resume
+  const reactToPrintFn = useReactToPrint({ contentRef: resumeDownloadRef });
+
+  //Function to update the basewidth based on the resume container line
+
+  const updateBaseWidth = () => {};
+
+  useEffect(() => {
+    updateBaseWidth();
+    window.addEventListener("resize", updateBaseWidth);
+    if (!resumeId) {
+      fetchResumeDetailsById;
+    }
+
+    return () => {
+      window.removeEventListener("resize", updateBaseWidth);
+    };
+  }, []);
 
   return (
     <DashboardLayout>
