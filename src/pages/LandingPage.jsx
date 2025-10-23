@@ -14,7 +14,13 @@ const LandingPage = () => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
-  const handleCTA = () => {};
+  const handleCTA = () => {
+    if(!user) {
+      setOpenAuthModal(true);
+    }else {
+      navigate("/dashboard")
+    }
+  };
 
   return (
     <div className="w-full min-h-full bg-white">
