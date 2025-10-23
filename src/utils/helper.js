@@ -61,5 +61,9 @@ export const getLightColorFromImage = (imageUrl) => {
         resolve(`rgb(${r}, ${g}, ${b})`);
       }
     };
+    img.onerror = (e) => {
+      console.error('Failed to load image', e);
+      reject(new Error ('Image could not be loaded or it blocked by CORS'))
+    }
   });
 };

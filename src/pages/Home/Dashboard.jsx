@@ -1,43 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axiosInstance from "../../utils/axiosInstance";
-// import { API_PATHS } from "../../utils/apiPath";
-// import DashboardLayout from "../../components/layouts/DashboardLayout";
-
-// const Dashboard = () => {
-//   const navigate = useNavigate();
-
-//   const [openCreateModal, setOpenCreateModal] = useState(false);
-//   const [allResumes, setAllResumes] = useState(null);
-
-//   const fetchAllResumes = async () => {
-//     try {
-//       const response = await axiosInstance.get(API_PATHS.RESUME.GET_ALL);
-//       setAllResumes(response.data);
-//     } catch (error) {
-//       console.error("Error fetching resumes", error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchAllResumes();
-//   }, []);
-//   return (
-//     <DashboardLayout>
-//       <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-7 pt-1 pb-6 px-4 md:px-0">
-//         <div className="" onClick={() => setOpenCreateModal(true)}>
-//           <div className=""></div>
-//           <h1 className="">Add New Resume</h1>
-//         </div>
-//       </div>
-//     </DashboardLayout>
-//   );
-// };
-
-// export default Dashboard;
-
-
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
@@ -46,6 +6,8 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { Plus } from "lucide-react";
 import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard";
 import moment from "moment";
+import CreateResumeForm from "./CreateResumeForm";
+import Modal from "../../components/Modal";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -123,39 +85,15 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Modal */}
-      {openCreateModal && (
-        <div
-          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-          onClick={() => setOpenCreateModal(false)}
-        >
-          <div
-            className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-md"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-lg font-bold text-gray-900 mb-4">
-              Create New Resume
-            </h2>
-            <p className="text-gray-600 text-sm mb-5">
-              This is a placeholder modal — add your creation form here.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setOpenCreateModal(false)}
-                className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-black transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setOpenCreateModal(false)}
-                className="px-4 py-2 text-sm font-semibold bg-[#af71ff] text-white rounded-md hover:bg-black transition"
-              >
-                Continue
-              </button>
-            </div>
-          </div>
+      <Modal
+        isOpen={openCreateModal}
+        onClose={() => setOpenCreateModal(false)}
+        hideHeader={true}
+      >
+        <div>
+          <CreateResumeForm />
         </div>
-      )}
+      </Modal>
     </DashboardLayout>
   );
 };

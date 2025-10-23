@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { getLightColorFromImage } from "../../utils/helper";
 
 const ResumeSummaryCard = ({ imgUrl, title, lastUpdated, onSelect }) => {
   const [bgColor, setBgColor] = useState("#ffffff");
@@ -22,6 +23,7 @@ const ResumeSummaryCard = ({ imgUrl, title, lastUpdated, onSelect }) => {
       style={{
         aspectRatio: "1 / 1.414", // Keeps the A4 shape (width : height)
         maxHeight: "360px",
+        backgroundColor: bgColor,
       }}
     >
       {/* A subtle paper edge effect */}
