@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import TitleInput from "../../components/inputs/TitleInput";
 import { useReactToPrint } from "react-to-print";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPath";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -118,8 +120,22 @@ const EditResume = () => {
   const removeArrayItem = (section, newItem) => {};
 
   //Fetch resume info by ID
-  const fetchResumeDetailsById = (async) => {
-    
+  const fetchResumeDetailsById = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.RESUME.GET_BY_ID(resumeId)
+      );
+      if(response.data && response.data.profileInfo) {
+        const resumeInfo = response.data;
+
+        setResumeData (prevState) =({
+          ...prevState,
+          title: resumeInfo?.title || "untitled",
+          template: resumeInfo?.template || prevState?.template,
+          profileInfo: resumeInfo?.profileInfo || prevState?.profileInfo,
+        })
+      }
+    } catch (error) {}
   };
 
   //Upload thumbnail and resume profile img
