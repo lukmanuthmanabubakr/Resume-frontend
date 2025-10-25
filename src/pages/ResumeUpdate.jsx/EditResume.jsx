@@ -18,6 +18,7 @@ import { API_PATHS } from "../../utils/apiPath";
 import StepProgress from "../../components/StepProgress";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
 import ContactInfoForm from "./Forms/ContactInfoForm";
+import WorkExperienceForm from "./Forms/WorkExperienceForm";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("profile-info");
+  const [currentPage, setCurrentPage] = useState("contact-info");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -132,6 +133,20 @@ const EditResume = () => {
             }}
           />
         );
+      case "work-experience":
+        return (
+          <WorkExperienceForm
+            contactInfo={resumeData?.workExperience}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("workExperience", index, key, value);
+            }}
+            addArrayItem={(newItem) => addArrayItem("workExperience", newItem)}
+            removeArrayItem={(index) =>
+              removeArrayItem("workExperience", index)
+            }
+          />
+        );
+
       default:
         return null;
     }
