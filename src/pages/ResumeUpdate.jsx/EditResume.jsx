@@ -17,6 +17,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import StepProgress from "../../components/StepProgress";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
+import ContactInfoForm from "./Forms/ContactInfoForm";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ const EditResume = () => {
       case "profile-info":
         return (
           <ProfileInfoForm
-            profileData={resumeData?.profileData}
+            profileData={resumeData?.profileInfo}
             updateSection={(key, value) => {
               updateSection("profileInfo", key, value);
             }}
@@ -122,6 +123,15 @@ const EditResume = () => {
           />
         );
 
+      case "contact-info":
+        return (
+          <ContactInfoForm
+            contactInfo={resumeData?.contactInfo}
+            updateSection={(key, value) => {
+              updateSection("contactInfo", key, value);
+            }}
+          />
+        );
       default:
         return null;
     }
@@ -209,42 +219,47 @@ const EditResume = () => {
     <DashboardLayout>
       <div className="container mx-auto px-4 md:px-6 py-6">
         {/* ===== Top Bar ===== */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white rounded-xl border border-purple-100 shadow-sm py-4 px-5 mb-6 transition-all duration-300">
+        <div className="flex items-center justify-between flex-wrap gap-3 bg-white rounded-xl border border-purple-100 shadow-sm py-3 px-4 mb-6 transition-all duration-300">
           {/* Editable Title */}
-          <TitleInput
-            title={resumeData.title}
-            setTitle={(value) =>
-              setResumeData((prevState) => ({
-                ...prevState,
-                title: value,
-              }))
-            }
-          />
+          <div className="flex items-center gap-2 flex-1 min-w-[150px]">
+            <TitleInput
+              title={resumeData.title}
+              setTitle={(value) =>
+                setResumeData((prevState) => ({
+                  ...prevState,
+                  title: value,
+                }))
+              }
+            />
+          </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 sm:gap-3 w-full md:w-auto">
+          <div className="flex items-center justify-end gap-2 shrink-0">
+            {/* Change Theme */}
             <button
               onClick={() => setOpenThemeSelector(true)}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm font-medium bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 active:scale-[0.97] transition-all w-full sm:w-auto justify-center"
+              className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-purple-50 text-[#6d28d9] border border-purple-200 rounded-lg hover:bg-purple-100 active:scale-[0.97] transition-all"
             >
-              <LuPalette size={16} className="shrink-0" />
-              <span>Change Theme</span>
+              <LuPalette size={18} />
+              <span className="hidden sm:inline">Change Theme</span>
             </button>
 
+            {/* Delete */}
             <button
               onClick={() => toast.error("Delete functionality not yet added")}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm font-medium bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 active:scale-[0.97] transition-all w-full sm:w-auto justify-center"
+              className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 active:scale-[0.97] transition-all"
             >
-              <LuTrash2 size={16} className="shrink-0" />
-              <span>Delete</span>
+              <LuTrash2 size={18} />
+              <span className="hidden sm:inline">Delete</span>
             </button>
 
+            {/* Preview & Download */}
             <button
               onClick={() => setOpenPreviewModal(true)}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm font-medium bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 active:scale-[0.97] transition-all w-full sm:w-auto justify-center"
+              className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-100 active:scale-[0.97] transition-all"
             >
-              <LuDownload size={16} className="shrink-0" />
-              <span>Preview & Download</span>
+              <LuDownload size={18} />
+              <span className="hidden sm:inline">Preview & Download</span>
             </button>
           </div>
         </div>
@@ -265,29 +280,32 @@ const EditResume = () => {
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex flex-col sm:flex-row items-center justify-end gap-3 mt-5">
+              <div className="flex flex-col sm:flex-row items-center sm:justify-end justify-center gap-3 mt-6 w-full">
+                {/* Back */}
                 <button
                   onClick={goBack}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-all active:scale-[0.97] disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
                 >
                   <LuArrowLeft className="text-gray-600" />
                   Back
                 </button>
 
+                {/* Save & Exit */}
                 <button
                   onClick={uploadResumeImages}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#7b3eff] hover:bg-[#5f1de0] rounded-lg transition-all active:scale-[0.97] disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8b5cf6] hover:bg-[#7c3aed] rounded-lg transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
                 >
                   <LuSave className="text-white" />
                   {isLoading ? "Uploading..." : "Save & Exit"}
                 </button>
 
+                {/* Next */}
                 <button
                   onClick={validateAndNext}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-all active:scale-[0.97] disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] rounded-lg shadow-md transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
                 >
                   {currentPage === "additionalInfo" ? (
                     <LuDownload className="text-white" />
@@ -301,6 +319,7 @@ const EditResume = () => {
               </div>
             </div>
           </div>
+
           <div ref={resumeRef} className="h-[100vh]">
             {/* Resume Templates */}
           </div>
@@ -308,62 +327,6 @@ const EditResume = () => {
       </div>
     </DashboardLayout>
   );
-
-  // return (
-  //   <DashboardLayout>
-  //     <div className="container mx-auto px-4 md:px-8 py-6">
-  //       {/* Top Bar */}
-  //       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white border border-purple-100 rounded-xl shadow-sm p-4 md:p-5 mb-6">
-  //         <TitleInput
-  //           title={resumeData.title}
-  //           setTitle={(value) =>
-  //             setResumeData((prevState) => ({ ...prevState, title: value }))
-  //           }
-  //         />
-
-  //         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-  //           <button
-  //             onClick={() => toast("Theme selector coming soon")}
-  //             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition"
-  //           >
-  //             <LuPalette size={16} />
-  //             Change Theme
-  //           </button>
-
-  //           <button
-  //             onClick={() => toast.error("Delete functionality not yet added")}
-  //             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition"
-  //           >
-  //             <LuTrash2 size={16} />
-  //             Delete
-  //           </button>
-
-  //           <button
-  //             onClick={() => toast("Preview coming soon")}
-  //             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-blue-50 text-blue-600 border border-blue-200 rounded-lg hover:bg-blue-100 transition"
-  //           >
-  //             <LuDownload size={16} />
-  //             Preview & Download
-  //           </button>
-  //         </div>
-  //       </div>
-
-  //       {/* Form Section Placeholder */}
-  //       <div className="bg-white rounded-xl border border-purple-100 shadow-sm p-6">
-  //         <p className="text-gray-500 text-center italic">
-  //           Resume editor form will appear here.
-  //         </p>
-
-  //         {errorMsg && (
-  //           <div className="mt-4 flex items-center gap-2 text-sm text-amber-600 bg-amber-50 px-3 py-2 rounded-lg">
-  //             <LuCircleAlert size={18} />
-  //             {errorMsg}
-  //           </div>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </DashboardLayout>
-  // );
 };
 
 export default EditResume;
