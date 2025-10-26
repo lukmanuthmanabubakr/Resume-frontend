@@ -30,7 +30,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("contact-info");
+  const [currentPage, setCurrentPage] = useState("work-experience");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -163,13 +163,37 @@ const EditResume = () => {
     }));
   };
   //Update array item (like workexperince, skills etc...)
-  const updateArrayItem = (section, index, key, value) => {};
+  const updateArrayItem = (section, index, key, value) => {
+    setResumeData((prev) => {
+      const updateArray = [...prev(section)];
+      if (key === null) {
+        updateArray[index] = {
+          ...updateArray[index],
+          [key]: value,
+        };
+      }
+
+      return {
+        ...prev,
+        [section]: updateArray,
+      };
+    });
+  };
 
   //Add item to array
-  const addArrayItem = (section, newItem) => {};
+  const addArrayItem = (section, newItem) => {
+    setResumeData((prev) => ({
+      ...prev,
+      [section]: [...prev[section], newItem],
+    }));
+  };
 
   //Remove item to array
-  const removeArrayItem = (section, newItem) => {};
+  const removeArrayItem = (section, newItem) => {
+    setResumeData((prev) => {
+      const updateArray = [...prev[section]]
+    });
+  };
 
   //Fetch resume info by ID
   const fetchResumeDetailsById = async () => {
