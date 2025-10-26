@@ -136,7 +136,7 @@ const EditResume = () => {
       case "work-experience":
         return (
           <WorkExperienceForm
-            contactInfo={resumeData?.workExperience}
+            workExperience={resumeData?.workExperience}
             updateArrayItem={(index, key, value) => {
               updateArrayItem("workExperience", index, key, value);
             }}
@@ -144,6 +144,18 @@ const EditResume = () => {
             removeArrayItem={(index) =>
               removeArrayItem("workExperience", index)
             }
+          />
+        );
+
+      case "education-info":
+        return (
+          <EducationDetailForm
+            educationInfo={resumeData?.education}
+            updateArrayItem={(index, key, value) => {
+              updateArrayItem("education", index, key, value);
+            }}
+            addArrayItem={(newItem) => addArrayItem("education", newItem)}
+            removeArrayItem={(index) => removeArrayItem("education", index)}
           />
         );
 
@@ -189,9 +201,15 @@ const EditResume = () => {
   };
 
   //Remove item to array
-  const removeArrayItem = (section, newItem) => {
+  const removeArrayItem = (section, index) => {
     setResumeData((prev) => {
-      const updateArray = [...prev[section]]
+      const updatedArray = [...prev[section]];
+      updatedArray.splice(index, 1);
+
+      return {
+        ...prev,
+        [section]: updatedArray,
+      };
     });
   };
 
