@@ -21,6 +21,7 @@ import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
 import EducationDetailForm from "./Forms/EducationDetailForm";
 import SkillsInfoForm from "./Forms/SkillsInfoForm";
+import ProjectsDetailForm from "./Forms/ProjectsDetailForm";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("skills");
+  const [currentPage, setCurrentPage] = useState("projects");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -161,18 +162,6 @@ const EditResume = () => {
           />
         );
 
-      // case "skills":
-      //   return (
-      //     <SkillsInfoForm
-      //       skillsInfo={resumeData?.skills}
-      //       updateArrayItem={(index, key, value) => {
-      //         updateArrayItem("skills", index, key, value);
-      //       }}
-      //       addArrayItem={(newItem) => addArrayItem("skills", newItem)}
-      //       removeArrayItem={(index) => removeArrayItem("skills", index)}
-      //     />
-      //   );
-
       case "skills":
         return (
           <SkillsInfoForm
@@ -183,6 +172,15 @@ const EditResume = () => {
           />
         );
 
+      case "projects":
+        return (
+          <ProjectsDetailForm
+            projectInfo={resumeData?.projects}
+            updateArrayItem={updateArrayItem}
+            addArrayItem={(newItem) => addArrayItem("projects", newItem)}
+            removeArrayItem={(index) => removeArrayItem("projects", index)}
+          />
+        );
       default:
         return null;
     }
@@ -199,21 +197,6 @@ const EditResume = () => {
     }));
   };
   //Update array item (like workexperince, skills etc...)
-  // const updateArrayItem = (section, index, key, value) => {
-  //   setResumeData((prev) => {
-  //     const updateArray = [...prev[section]];
-  //     if (key === null) {
-  //       updateArray[index] = {
-  //         ...updateArray[index],
-  //         [key]: value,
-  //       };
-  //     }
-  //     return {
-  //       ...prev,
-  //       [section]: updateArray,
-  //     };
-  //   });
-  // };
 
   const updateArrayItem = (section, index, key, value) => {
     setResumeData((prev) => {
