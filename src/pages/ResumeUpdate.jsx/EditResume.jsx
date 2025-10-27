@@ -161,17 +161,27 @@ const EditResume = () => {
           />
         );
 
-        case "skills":
-          return(
-            <SkillsInfoForm
-              skillsInfo={resumeData?.skills}
-              updateArrayItem={(index, key, value) => {
-              updateArrayItem("skills", index, key, value);
-            }}
+      // case "skills":
+      //   return (
+      //     <SkillsInfoForm
+      //       skillsInfo={resumeData?.skills}
+      //       updateArrayItem={(index, key, value) => {
+      //         updateArrayItem("skills", index, key, value);
+      //       }}
+      //       addArrayItem={(newItem) => addArrayItem("skills", newItem)}
+      //       removeArrayItem={(index) => removeArrayItem("skills", index)}
+      //     />
+      //   );
+
+      case "skills":
+        return (
+          <SkillsInfoForm
+            skillsInfo={resumeData?.skills}
+            updateArrayItem={updateArrayItem}
             addArrayItem={(newItem) => addArrayItem("skills", newItem)}
             removeArrayItem={(index) => removeArrayItem("skills", index)}
-            />
-          )
+          />
+        );
 
       default:
         return null;
@@ -189,19 +199,32 @@ const EditResume = () => {
     }));
   };
   //Update array item (like workexperince, skills etc...)
+  // const updateArrayItem = (section, index, key, value) => {
+  //   setResumeData((prev) => {
+  //     const updateArray = [...prev[section]];
+  //     if (key === null) {
+  //       updateArray[index] = {
+  //         ...updateArray[index],
+  //         [key]: value,
+  //       };
+  //     }
+  //     return {
+  //       ...prev,
+  //       [section]: updateArray,
+  //     };
+  //   });
+  // };
+
   const updateArrayItem = (section, index, key, value) => {
     setResumeData((prev) => {
-      const updateArray = [...prev(section)];
-      if (key === null) {
-        updateArray[index] = {
-          ...updateArray[index],
-          [key]: value,
-        };
-      }
-
+      const updatedArray = [...prev[section]];
+      updatedArray[index] = {
+        ...updatedArray[index],
+        [key]: value,
+      };
       return {
         ...prev,
-        [section]: updateArray,
+        [section]: updatedArray,
       };
     });
   };
