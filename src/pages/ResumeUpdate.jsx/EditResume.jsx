@@ -181,6 +181,11 @@ const EditResume = () => {
             removeArrayItem={(index) => removeArrayItem("projects", index)}
           />
         );
+
+      case "certificates":
+        return(
+          
+        )
       default:
         return null;
     }
