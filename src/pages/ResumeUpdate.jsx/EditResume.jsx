@@ -35,7 +35,7 @@ const EditResume = () => {
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState("additionalInfo");
+  const [currentPage, setCurrentPage] = useState("profile-info");
   const [progress, setProgress] = useState(0);
   const [resumeData, setResumeData] = useState({
     title: "",
@@ -112,7 +112,17 @@ const EditResume = () => {
   const validateAndNext = (e) => {};
 
   //Function to navigate to the next page
-  const goToNextStep = () => {};
+  const goToNextStep = () => {
+    const pages = [
+      "profile-info",
+      "contact-info",
+      "work-experience",
+      "skills",
+      "projects",
+      "certifications",
+      "additionalInfo",
+    ];
+  };
   //Function to navigate to the previous page
   const goBack = () => {};
 
