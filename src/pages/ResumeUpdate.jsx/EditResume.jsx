@@ -147,6 +147,11 @@ const EditResume = () => {
       "certifications",
       "additionalInfo",
     ];
+    if(currentPage === "profile-info") navigate("/dashboard")
+      const currentIndex = pages.indexOf(currentPage);
+    if(currentIndex > 0){
+      
+    }
   };
 
   const renderForm = () => {
