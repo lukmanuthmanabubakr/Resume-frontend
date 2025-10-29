@@ -122,9 +122,22 @@ const EditResume = () => {
       "certifications",
       "additionalInfo",
     ];
+    if (currentPage === "additionalInfo") setOpenPreviewModal(true);
+    const currentIndex = pages.indexOf(currentPage);
+    if (currentIndex !== -1 && currentIndex < pages.length - 1) {
+      const nextIndex = currentIndex + 1;
+      setCurrentPage(pages[nextIndex]);
+
+      //Set progress as percentage
+      const percent = Math.round((nextIndex / (pages.length - 1)) * 100);
+      setProgress(percent);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
   //Function to navigate to the previous page
-  const goBack = () => {};
+  const goBack = () => {
+    
+  };
 
   const renderForm = () => {
     switch (currentPage) {
