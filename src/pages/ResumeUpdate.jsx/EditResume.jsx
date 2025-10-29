@@ -136,7 +136,15 @@ const EditResume = () => {
   };
   //Function to navigate to the previous page
   const goBack = () => {
-    
+    const pages = [
+      "profile-info",
+      "contact-info",
+      "work-experience",
+      "skills",
+      "projects",
+      "certifications",
+      "additionalInfo",
+    ];
   };
 
   const renderForm = () => {
