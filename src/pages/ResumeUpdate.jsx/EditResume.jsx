@@ -117,6 +117,7 @@ const EditResume = () => {
       "profile-info",
       "contact-info",
       "work-experience",
+      "educational-info",
       "skills",
       "projects",
       "certifications",
@@ -140,6 +141,7 @@ const EditResume = () => {
       "profile-info",
       "contact-info",
       "work-experience",
+      "educational-info",
       "skills",
       "projects",
       "certifications",
@@ -305,23 +307,22 @@ const EditResume = () => {
       if (response.data && response.data.profileInfo) {
         const resumeInfo = response.data;
 
-        setResumeData(
-          (prevState = {
-            ...prevState,
-            title: resumeInfo?.title || "untitled",
-            template: resumeInfo?.template || prevState?.template,
-            profileInfo: resumeInfo?.profileInfo || prevState?.profileInfo,
-            contactInfo: resumeInfo?.contactInfo || prevState?.contactInfo,
-            workExperience:
-              resumeInfo?.workExperience || prevState?.workExperience,
-            education: resumeInfo?.education || prevState?.education,
-            skills: resumeInfo?.skills || prevState?.skills,
-            projects: resumeInfo?.projects || prevState?.projects,
-            certificates: resumeInfo?.certificates || prevState?.certificates,
-            languages: resumeInfo?.languages || prevState?.languages,
-            interests: resumeInfo?.interests || prevState?.interests,
-          })
-        );
+        setResumeData((prevState) => ({
+          ...prevState,
+          title: resumeInfo?.title || "untitled",
+          template: resumeInfo?.template || prevState?.template,
+          profileInfo: resumeInfo?.profileInfo || prevState?.profileInfo,
+          contactInfo: resumeInfo?.contactInfo || prevState?.contactInfo,
+          workExperience:
+            resumeInfo?.workExperience || prevState?.workExperience,
+          education: resumeInfo?.education || prevState?.education,
+          skills: resumeInfo?.skills || prevState?.skills,
+          projects: resumeInfo?.projects || prevState?.projects,
+          certifications:
+            resumeInfo?.certifications || prevState?.certifications, // not "certificates"
+          languages: resumeInfo?.languages || prevState?.languages,
+          interests: resumeInfo?.interests || prevState?.interests,
+        }));
       }
     } catch (error) {
       console.error("Error fetching resumes:", error);
@@ -347,7 +348,7 @@ const EditResume = () => {
     updateBaseWidth();
     window.addEventListener("resize", updateBaseWidth);
     if (!resumeId) {
-      fetchResumeDetailsById;
+      fetchResumeDetailsById();
     }
 
     return () => {
