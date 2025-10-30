@@ -24,6 +24,7 @@ import SkillsInfoForm from "./Forms/SkillsInfoForm";
 import ProjectsDetailForm from "./Forms/ProjectsDetailForm";
 import CertificationInfoForm from "./Forms/CertificationInfoForm";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
+import RenderResume from "../../components/ResumeTemplates/RenderResume";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -124,16 +125,109 @@ const EditResume = () => {
         const { email, phone } = resumeData.contactInfo;
         if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
           errors.push("Valid email is required");
-        if (!phone.trim()) errors.push("Valid 10-digit phone number is required");
+        if (!phone.trim())
+          errors.push("Valid 10-digit phone number is required");
         break;
 
-      case "contact-info":
-        const { email, phone } = resumeData.contactInfo;
-        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-          errors.push("Valid email is required");
-        if (!phone.trim()) errors.push("Valid 10-digit phone number is required");
+      case "work-experience":
+        resumeData.workExperience.forEach(
+          ({ company, role, startDate, endDate }, index) => {
+            if (!company.trim()) {
+              errors.push(`Company is required in experience ${index + 1}`);
+            }
+            if (!role.trim()) {
+              errors.push(`Role is required in experience ${index + 1}`);
+            }
+            if (!startDate || !endDate) {
+              errors.push(
+                `Start and End dates are required in experience ${index + 1}`
+              );
+            }
+          }
+        );
+        break;
+
+      case "education-info":
+        resumeData.education.forEach(
+          ({ degree, institution, startDate, endDate }, index) => {
+            if (!degree.trim()) {
+              errors.push(`Degree is required in education ${index + 1}`);
+            }
+            if (!institution.trim()) {
+              errors.push(`Institution is required in education ${index + 1}`);
+            }
+            if (!startDate || !endDate) {
+              errors.push(
+                `Start and End dates are required in education ${index + 1}`
+              );
+            }
+          }
+        );
+        break;
+      case "skills":
+        resumeData.skills.forEach(({ name, progress }, index) => {
+          if (!name.trim()) {
+            errors.push(`Skill name is required in skill ${index + 1}`);
+          }
+          if (progress < 1 || progress > 100) {
+            errors.push(
+              `Skill progress must be between 1 and 100 in skill ${index + 1}`
+            );
+          }
+        });
+        break;
+
+      case "projects":
+        resumeData.projects.forEach(({ title, description }, index) => {
+          if (!title.trim()) {
+            errors.push(`Project title is required in projects ${index + 1}`);
+          }
+          if (!description.trim()) {
+            errors.push(
+              `Project description is required in projects ${index + 1}`
+            );
+          }
+        });
+        break;
+
+      case "certifications":
+        resumeData.certifications.forEach(({ title, issuer }, index) => {
+          if (!title.trim()) {
+            errors.push(
+              `Certifications title is required in certifications ${index + 1}`
+            );
+          }
+          if (!issuer.trim()) {
+            errors.push(`Issuer is required in certifications ${index + 1}`);
+          }
+        });
+        break;
+      case "additionalInfo":
+        if (
+          resumeData.languages.length === 0 ||
+          !resumeData.languages[0].name?.trim()
+        ) {
+          errors.push("At least one language is required");
+        }
+        if (
+          resumeData.interests.length === 0 ||
+          !resumeData.interests[0]?.trim()
+        ) {
+          errors.push("At least one interest is required");
+        }
+        break;
+
+      default:
         break;
     }
+    if (errors.length > 0) {
+      setErrorMsg(errors.join(", "));
+      return;
+    }
+
+    //Move to the next step
+    setErrorMsg("");
+    goToNextStep();
   };
 
   //Function to navigate to the next page
@@ -142,7 +236,7 @@ const EditResume = () => {
       "profile-info",
       "contact-info",
       "work-experience",
-      "educational-info",
+      "education-info",
       "skills",
       "projects",
       "certifications",
@@ -166,7 +260,7 @@ const EditResume = () => {
       "profile-info",
       "contact-info",
       "work-experience",
-      "educational-info",
+      "education-info",
       "skills",
       "projects",
       "certifications",
@@ -176,7 +270,7 @@ const EditResume = () => {
     const currentIndex = pages.indexOf(currentPage);
     if (currentIndex > 0) {
       const prevIndex = currentIndex - 1;
-      setCurrentPage(pages(prevIndex));
+      setCurrentPage(pages[prevIndex]);
 
       //Update Progress
       const percent = Math.round((prevIndex / (pages.length - 1)) * 100);
@@ -378,7 +472,11 @@ const EditResume = () => {
 
   //Function to update the basewidth based on the resume container line
 
-  const updateBaseWidth = () => {};
+  const updateBaseWidth = () => {
+    if(resumeRef.current){
+      setBaseWidth(resumeRef.current.offsetWidth)
+    }
+  };
 
   useEffect(() => {
     updateBaseWidth();
@@ -457,12 +555,12 @@ const EditResume = () => {
               )}
 
               {/* Navigation Buttons */}
-              <div className="flex flex-col sm:flex-row items-center sm:justify-end justify-center gap-3 mt-6 w-full">
+              <div className="flex flex-wrap justify-end items-center gap-3 mt-6 w-full">
                 {/* Back */}
                 <button
                   onClick={goBack}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-all active:scale-[0.97] disabled:opacity-50 justify-center"
                 >
                   <LuArrowLeft className="text-gray-600" />
                   Back
@@ -472,7 +570,7 @@ const EditResume = () => {
                 <button
                   onClick={uploadResumeImages}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8b5cf6] hover:bg-[#7c3aed] rounded-lg transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#8b5cf6] hover:bg-[#7c3aed] rounded-lg transition-all active:scale-[0.97] disabled:opacity-50 justify-center"
                 >
                   <LuSave className="text-white" />
                   {isLoading ? "Uploading..." : "Save & Exit"}
@@ -482,7 +580,11 @@ const EditResume = () => {
                 <button
                   onClick={validateAndNext}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] hover:from-[#6d28d9] hover:to-[#5b21b6] rounded-lg shadow-md transition-all active:scale-[0.97] disabled:opacity-50 w-full sm:w-auto justify-center"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white 
+               bg-gradient-to-r from-[#a855f7] via-[#ec4899] to-[#8b5cf6]
+               hover:from-[#ec4899] hover:via-[#a855f7] hover:to-[#7c3aed]
+               rounded-lg shadow-lg shadow-pink-200/40 transition-all active:scale-[0.97] 
+               disabled:opacity-50 justify-center"
                 >
                   {currentPage === "additionalInfo" ? (
                     <LuDownload className="text-white" />
@@ -498,7 +600,12 @@ const EditResume = () => {
           </div>
 
           <div ref={resumeRef} className="h-[100vh]">
-            {/* Resume Templates */}
+            <RenderResume
+              templateId={resumeData?.template?.theme || ""}
+              resumeData={resumeData}
+              colorPalette={resumeData?.template?.colorPalette || []}
+              containerwidth={baseWidth}
+            />
           </div>
         </div>
       </div>
