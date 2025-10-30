@@ -109,7 +109,32 @@ const EditResume = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   //Validate Inputs
-  const validateAndNext = (e) => {};
+  const validateAndNext = (e) => {
+    const errors = [];
+
+    switch (currentPage) {
+      case "profile-info":
+        const { fullName, designation, summary } = resumeData.profileInfo;
+        if (!fullName.trim()) errors.push("full name is required");
+        if (!designation.trim()) errors.push("Designation is required");
+        if (!summary.trim()) errors.push("Summary is required");
+        break;
+
+      case "contact-info":
+        const { email, phone } = resumeData.contactInfo;
+        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+          errors.push("Valid email is required");
+        if (!phone.trim()) errors.push("Valid 10-digit phone number is required");
+        break;
+
+      case "contact-info":
+        const { email, phone } = resumeData.contactInfo;
+        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+          errors.push("Valid email is required");
+        if (!phone.trim()) errors.push("Valid 10-digit phone number is required");
+        break;
+    }
+  };
 
   //Function to navigate to the next page
   const goToNextStep = () => {
@@ -147,10 +172,16 @@ const EditResume = () => {
       "certifications",
       "additionalInfo",
     ];
-    if(currentPage === "profile-info") navigate("/dashboard")
-      const currentIndex = pages.indexOf(currentPage);
-    if(currentIndex > 0){
-      
+    if (currentPage === "profile-info") navigate("/dashboard");
+    const currentIndex = pages.indexOf(currentPage);
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1;
+      setCurrentPage(pages(prevIndex));
+
+      //Update Progress
+      const percent = Math.round((prevIndex / (pages.length - 1)) * 100);
+      setProgress(percent);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
