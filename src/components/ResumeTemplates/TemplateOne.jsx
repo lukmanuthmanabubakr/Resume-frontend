@@ -9,6 +9,8 @@ import {
 } from "react-icons/lu";
 import { RiLinkedinLine } from "react-icons/ri";
 import ContactInfo from "../ResumeSections/ContactInfo";
+import EducationInfo from "../ResumeSections/EducationInfo";
+import { formatYearMonth } from "../../utils/helper";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#008ED5", "#AA5565"];
 
@@ -98,11 +100,44 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               />
               {resumeData.contactInfo.linkedin && (
                 <ContactInfo
-                  icon={<LuPhone />}
+                  icon={<RiLinkedinLine />}
                   iconBg={themeColors[2]}
-                  value={resumeData.contactInfo.phone}
+                  value={resumeData.contactInfo.linkedin}
                 />
               )}
+              {resumeData.contactInfo.github && (
+                <ContactInfo
+                  icon={<LuGithub />}
+                  iconBg={themeColors[2]}
+                  value={resumeData.contactInfo.github}
+                />
+              )}
+              <ContactInfo
+                icon={<LuRss />}
+                iconBg={themeColors[2]}
+                value={resumeData.contactInfo.website}
+              />
+            </div>
+
+            <div className="mt-5">
+              <Title text="Education" color={themeColors[1]} />
+              {resumeData.education.map((data, index) => (
+                <EducationInfo
+                  key={`education_${index}`}
+                  degree={data.degree}
+                  institution={data.institution}
+                  duration={`${formatYearMonth(
+                    data.startDate
+                  )} - ${formatYearMonth(data.endDate)}`}
+                />
+              ))}
+            </div>
+
+            <div className="">
+                <Title text="Languages" color={themeColors[1]}/>
+                <LanguageSection 
+                    
+                />
             </div>
           </div>
         </div>
