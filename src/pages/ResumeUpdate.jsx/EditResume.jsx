@@ -434,6 +434,7 @@ const EditResume = () => {
       const response = await axiosInstance.get(
         API_PATHS.RESUME.GET_BY_ID(resumeId)
       );
+
       if (response.data && response.data.profileInfo) {
         const resumeInfo = response.data;
 
@@ -473,15 +474,15 @@ const EditResume = () => {
   //Function to update the basewidth based on the resume container line
 
   const updateBaseWidth = () => {
-    if(resumeRef.current){
-      setBaseWidth(resumeRef.current.offsetWidth)
+    if (resumeRef.current) {
+      setBaseWidth(resumeRef.current.offsetWidth);
     }
   };
 
   useEffect(() => {
     updateBaseWidth();
     window.addEventListener("resize", updateBaseWidth);
-    if (!resumeId) {
+    if (resumeId) {
       fetchResumeDetailsById();
     }
 

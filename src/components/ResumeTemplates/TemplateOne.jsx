@@ -8,6 +8,7 @@ import {
   LuUser,
 } from "react-icons/lu";
 import { RiLinkedinLine } from "react-icons/ri";
+import ContactInfo from "../ResumeSections/ContactInfo";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#008ED5", "#AA5565"];
 
@@ -70,12 +71,39 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 </div>
               )}
             </div>
-            <h2 className="text-xl font-bold mt-3">{resumeData.profileInfo.fullName}</h2>
-            <p className="text-sm text-center">{resumeData.profileInfo.designation}</p>
+            <h2 className="text-xl font-bold mt-3">
+              {resumeData.profileInfo.fullName}
+            </h2>
+            <p className="text-sm text-center">
+              {resumeData.profileInfo.designation}
+            </p>
           </div>
 
           <div className="my-6 mx-6">
-            
+            <div className="flex flex-col gap-4">
+              <ContactInfo
+                icon={<LuMapPinHouse />}
+                iconBg={themeColors[2]}
+                value={resumeData.contactInfo.location}
+              />
+              <ContactInfo
+                icon={<LuMail />}
+                iconBg={themeColors[2]}
+                value={resumeData.contactInfo.email}
+              />
+              <ContactInfo
+                icon={<LuPhone />}
+                iconBg={themeColors[2]}
+                value={resumeData.contactInfo.phone}
+              />
+              {resumeData.contactInfo.linkedin && (
+                <ContactInfo
+                  icon={<LuPhone />}
+                  iconBg={themeColors[2]}
+                  value={resumeData.contactInfo.phone}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className="col-span-8 pt-10 mr-10 pb-5"></div>
