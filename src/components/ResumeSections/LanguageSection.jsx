@@ -17,7 +17,19 @@ const LanguageInfo = ({ language, progress, accentColor, bgColor }) => {
 };
 
 const LanguageSection = ({ languages, accentColor, bgColor }) => {
-  return <div className="">languages</div>;
+  return (
+    <div className="flex flex-col gap-2">
+      {languages?.map((language, index) => (
+        <LanguageInfo
+          key={`language_${index}`}
+          language={language.name}
+          progress={language.progress}
+          accentColor={accentColor}
+          bgColor={bgColor}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default LanguageSection;

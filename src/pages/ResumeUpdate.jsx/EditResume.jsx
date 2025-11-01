@@ -496,7 +496,6 @@ const EditResume = () => {
       <div className="container mx-auto px-4 md:px-6 py-6">
         {/* ===== Top Bar ===== */}
         <div className="flex items-center justify-between flex-wrap gap-3 bg-white rounded-xl border border-purple-100 shadow-sm py-3 px-4 mb-6 transition-all duration-300">
-          {/* Editable Title */}
           <div className="flex items-center gap-2 flex-1 min-w-[150px]">
             <TitleInput
               title={resumeData.title}
@@ -509,9 +508,7 @@ const EditResume = () => {
             />
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center justify-end gap-2 shrink-0">
-            {/* Change Theme */}
             <button
               onClick={() => setOpenThemeSelector(true)}
               className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-purple-50 text-[#6d28d9] border border-purple-200 rounded-lg hover:bg-purple-100 active:scale-[0.97] transition-all"
@@ -520,7 +517,6 @@ const EditResume = () => {
               <span className="hidden sm:inline">Change Theme</span>
             </button>
 
-            {/* Delete */}
             <button
               onClick={() => toast.error("Delete functionality not yet added")}
               className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 active:scale-[0.97] transition-all"
@@ -529,7 +525,6 @@ const EditResume = () => {
               <span className="hidden sm:inline">Delete</span>
             </button>
 
-            {/* Preview & Download */}
             <button
               onClick={() => setOpenPreviewModal(true)}
               className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-indigo-50 text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-100 active:scale-[0.97] transition-all"
@@ -542,12 +537,11 @@ const EditResume = () => {
 
         {/* ===== Form Area ===== */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden transition-all">
+          {/* <div className="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden transition-all">
             <StepProgress progress={0} />
             {renderForm()}
 
             <div className="px-5 pb-5">
-              {/* Error Message */}
               {errorMsg && (
                 <div className="flex items-center gap-2 text-[13px] font-medium text-amber-700 bg-amber-50 px-3 py-2 mt-3 rounded-lg">
                   <LuCircleAlert className="text-lg shrink-0" />
@@ -555,9 +549,7 @@ const EditResume = () => {
                 </div>
               )}
 
-              {/* Navigation Buttons */}
               <div className="flex flex-wrap justify-end items-center gap-3 mt-6 w-full">
-                {/* Back */}
                 <button
                   onClick={goBack}
                   disabled={isLoading}
@@ -567,7 +559,6 @@ const EditResume = () => {
                   Back
                 </button>
 
-                {/* Save & Exit */}
                 <button
                   onClick={uploadResumeImages}
                   disabled={isLoading}
@@ -576,8 +567,6 @@ const EditResume = () => {
                   <LuSave className="text-white" />
                   {isLoading ? "Uploading..." : "Save & Exit"}
                 </button>
-
-                {/* Next */}
                 <button
                   onClick={validateAndNext}
                   disabled={isLoading}
@@ -598,7 +587,7 @@ const EditResume = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div ref={resumeRef} className="h-[100vh]">
             <RenderResume

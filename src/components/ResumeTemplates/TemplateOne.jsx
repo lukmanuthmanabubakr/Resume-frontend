@@ -50,9 +50,9 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
         height: "auto",
       }}
     >
-      <div className="grid grid-cols-12 gap-8">
+      <div className="grid grid-cols-12 gap-2">
         <div
-          className="col-span-8 py-10"
+          className="col-span-4 py-10"
           style={{ backgroundColor: themeColors[0] }}
         >
           <div className="flex flex-col items-center px-2">
@@ -144,7 +144,20 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
             </div>
           </div>
         </div>
-        <div className="col-span-8 pt-10 mr-10 pb-5"></div>
+        <div className="col-span-8 pt-10 mr-10 pb-5">
+          <Title text="Professional Summary" color={themeColors[1]} />
+          <p className="text-sm font-medium">
+            {resumeData.profileInfo.summary}
+          </p>
+        </div>
+        <div className="">
+          <Title text="Work Experience" color={themeColors[1]} />
+          {resumeData.workExperience.map((data, index) => {
+            <workExperience
+
+            />
+          })}
+        </div>
       </div>
     </div>
   );
