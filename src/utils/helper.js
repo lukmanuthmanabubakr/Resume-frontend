@@ -70,10 +70,6 @@ export const getLightColorFromImage = (imageUrl) => {
   });
 };
 
-// export function formatYearMonth(yearMonth) {
-//   return yearMonth ? moment(yearMonth, "YYYY-MM").format("MMM YYYY") : "";
-// }
-
 export const formatYearMonth = (yearMonth) => {
   return yearMonth ? moment(yearMonth, "YYYY-MM").format("MMM YYYY") : "";
 };
