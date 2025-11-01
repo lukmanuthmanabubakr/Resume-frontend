@@ -45,7 +45,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
       ref={resumeRef}
       className="p-3 bg-white"
       style={{
-        transform: containerWidth > 0 ? `scale{${scale}}` : "none",
+        transform: containerWidth > 0 ? `scale(${scale})` : "none",
         transformOrigin: "top left",
         width: containerWidth > 0 ? `${baseWidth}px` : "auto", //keep the original size so scalling works correctly
         height: "auto",
@@ -150,22 +150,22 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
           <p className="text-sm font-medium">
             {resumeData.profileInfo.summary}
           </p>
-        </div>
 
-        <div className="mt-4">
-          <Title text="Work Experience" color={themeColors[1]} />
-          {resumeData.workExperience.map((data, index) => {
-            <WorkExperience
-              key={`work_${index}`}
-              company={data.company}
-              role={data.role}
-              duration={`${formatYearMonth(data.startDate)} - ${formatYearMonth(
-                data.endDate
-              )}`}
-              durationColor={themeColors[4]}
-              description={data.description}
-            />;
-          })}
+          <div className="mt-6">
+            <Title text="Work Experience" color={themeColors[1]} />
+            {resumeData.workExperience.map((data, index) => (
+              <WorkExperience
+                key={`work_${index}`}
+                company={data.company}
+                role={data.role}
+                duration={`${formatYearMonth(
+                  data.startDate
+                )} - ${formatYearMonth(data.endDate)}`}
+                durationColor={themeColors[4]}
+                description={data.description}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
