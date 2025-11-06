@@ -14,6 +14,7 @@ import { formatYearMonth } from "../../utils/helper";
 import LanguageSection from "../ResumeSections/LanguageSection";
 import WorkExperience from "../ResumeSections/WorkExperience";
 import ProjectInfo from "../ResumeSections/ProjectInfo";
+import SkillSection from "../ResumeSections/SkillSection";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#008ED5", "#AA5565"];
 
@@ -176,10 +177,19 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 title={project.title}
                 description={project.description}
                 githubLink={project.github}
-                liveDemoUrl={project.liveDem}
+                liveDemoUrl={project.liveDemo}
                 bgColor={themeColors[2]}
               />
             ))}
+          </div>
+
+          <div className="mt-6">
+            <Title text="Skills" color={themeColors[1]} />
+            <SkillSection
+              skills={resumeData.skills}
+              accentColor={themeColors[3]}
+              bgColor={themeColors[2]}
+            />
           </div>
         </div>
       </div>

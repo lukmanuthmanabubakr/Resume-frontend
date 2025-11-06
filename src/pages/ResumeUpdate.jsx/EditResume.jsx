@@ -536,7 +536,7 @@ const EditResume = () => {
         </div>
 
         {/* ===== Form Area ===== */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* <div className="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden transition-all">
             <StepProgress progress={0} />
             {renderForm()}
@@ -588,8 +588,14 @@ const EditResume = () => {
               </div>
             </div>
           </div> */}
+          <div className="hidden lg:block"></div>
 
-          <div ref={resumeRef} className="h-[100vh]">
+          {/* Right Hand side */}
+
+          <div
+            ref={resumeRef}
+            className="bg-white rounded-xl border border-purple-100 shadow-sm p-4 overflow-auto min-h-[400px]"
+          >
             <RenderResume
               templateId={resumeData?.template?.theme || ""}
               resumeData={resumeData}
