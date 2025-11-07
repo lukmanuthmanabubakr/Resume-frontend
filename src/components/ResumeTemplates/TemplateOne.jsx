@@ -191,6 +191,22 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
               bgColor={themeColors[2]}
             />
           </div>
+
+          <div className="mt-6">
+            <Title text="Certifications" color={themeColors[1]} />
+
+            <div className="grid grid-cols-2 gap-2">
+              {resumeData.certifications.map((data, index) => (
+                <CertificationInfo
+                  key={`cert_${index}`}
+                  title={data.title}
+                  issuer={data.issuer}
+                  year={data.year}
+                  bgColor={themeColors[2]}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
