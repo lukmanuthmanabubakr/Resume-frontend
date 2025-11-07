@@ -15,6 +15,7 @@ import LanguageSection from "../ResumeSections/LanguageSection";
 import WorkExperience from "../ResumeSections/WorkExperience";
 import ProjectInfo from "../ResumeSections/ProjectInfo";
 import SkillSection from "../ResumeSections/SkillSection";
+import CertificationInfo from "../ResumeSections/CertificationInfo";
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#008ED5", "#AA5565"];
 
@@ -205,6 +206,25 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                   bgColor={themeColors[2]}
                 />
               ))}
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <Title text="Interests" color={themeColors[1]} />
+
+            <div className="flex items-center flex-wrap gap-3 mt-4">
+              {resumeData.interests.map((interest, index) => {
+                if (!interest) return null;
+                return (
+                  <div
+                    key={`interest_${index}`}
+                    className="text-[10px]"
+                    style={{ backgroundColor: themeColors[2] }}
+                  >
+                    {interest}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
