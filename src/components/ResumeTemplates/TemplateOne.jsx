@@ -60,24 +60,23 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
           style={{ backgroundColor: themeColors[0] }}
         >
           <div className="flex flex-col items-center px-2">
-            <div
-              className="w-[100px] h-[100px] max-w-[110px] max-h-[110px] rounded-full flex items-center justify-center"
-              style={{ backgroundColor: themeColors[1] }}
-            >
+            <div className="relative w-[100px] h-[100px] rounded-full border border-gray-200 bg-gray-50 flex items-center justify-center shadow-sm overflow-hidden">
               {resumeData.profileInfo.profilePreviewUrl ? (
                 <img
                   src={resumeData.profileInfo.profilePreviewUrl}
-                  className="w-[90px] h-[90px] rounded-full"
+                  alt="Profile"
+                  className="w-full h-full object-cover rounded-full"
                 />
               ) : (
                 <div
-                  className="w-[90px] h-[90px] flex items-center justify-center text-5xl rounded-full"
+                  className="flex items-center justify-center w-full h-full text-4xl"
                   style={{ color: themeColors[4] }}
                 >
                   <LuUser />
                 </div>
               )}
             </div>
+
             <h2 className="text-xl font-bold mt-3">
               {resumeData.profileInfo.fullName}
             </h2>
@@ -212,20 +211,26 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
           <div className="mt-6">
             <Title text="Interests" color={themeColors[1]} />
 
-            <div className="flex items-center flex-wrap gap-3 mt-4">
-              {resumeData.interests.map((interest, index) => {
-                if (!interest) return null;
-                return (
-                  <div
-                    key={`interest_${index}`}
-                    className="text-[10px]"
-                    style={{ backgroundColor: themeColors[2] }}
-                  >
-                    {interest}
-                  </div>
-                );
-              })}
-            </div>
+            {Array.isArray(resumeData.interests) &&
+              resumeData.interests.length > 0 &&
+              resumeData.interests.some((item) => item.trim() !== "") && (
+                <div className="flex flex-wrap items-center gap-2 mt-3">
+                  {resumeData.interests.map((interest, index) => {
+                    const trimmed = interest?.trim();
+                    if (!trimmed) return null;
+
+                    return (
+                      <span
+                        key={`interest_${index}`}
+                        className="text-[11px] font-medium text-gray-800 px-3 py-1 rounded-lg shadow-sm"
+                        style={{ backgroundColor: themeColors[2] }}
+                      >
+                        {trimmed}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
           </div>
         </div>
       </div>

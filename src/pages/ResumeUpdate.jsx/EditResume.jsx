@@ -537,7 +537,7 @@ const EditResume = () => {
 
         {/* ===== Form Area ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-          {/* <div className="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden transition-all">
+          <div className="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden transition-all">
             <StepProgress progress={0} />
             {renderForm()}
 
@@ -587,8 +587,7 @@ const EditResume = () => {
                 </button>
               </div>
             </div>
-          </div> */}
-          <div className="hidden lg:block"></div>
+          </div>
 
           {/* Right Hand side */}
 
