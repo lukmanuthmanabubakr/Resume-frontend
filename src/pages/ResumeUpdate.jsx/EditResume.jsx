@@ -25,7 +25,11 @@ import ProjectsDetailForm from "./Forms/ProjectsDetailForm";
 import CertificationInfoForm from "./Forms/CertificationInfoForm";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 import RenderResume from "../../components/ResumeTemplates/RenderResume";
-import { captureElementAsImage, dataURLtoFile, fixTailwindColors } from "../../utils/helper";
+import {
+  captureElementAsImage,
+  dataURLtoFile,
+  fixTailwindColors,
+} from "../../utils/helper";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -465,7 +469,11 @@ const EditResume = () => {
   const uploadResumeImages = async () => {
     try {
       setIsLoading(true);
+      // fixTailwindColors(resumeRef.current);
+      // const imageDataUrl = await captureElementAsImage(resumeRef.current);
+
       fixTailwindColors(resumeRef.current);
+      await new Promise((resolve) => setTimeout(resolve, 100)); // wait for 1 frame
       const imageDataUrl = await captureElementAsImage(resumeRef.current);
 
       //Convert base64 to file
@@ -494,14 +502,31 @@ const EditResume = () => {
       navigate("/dashboard");
     } catch (error) {
       console.error("Error uploading images:", error);
-      toast.error("Failed to upload images")
-    }finally{
-      setIsLoading(false)
+      toast.error("Failed to upload images");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
-    
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.put(
+        API_PATHS.RESUME.UPDATE(resumeId),
+        {
+          ...resumeData,
+          thumbnailLink: thumbnailLink || "",
+          profileInfo: {
+            ...resumeData.profileInfo,
+            profilePreviewUrl: profilePreviewUrl || "",
+          },
+        }
+      );
+    } catch (err) {
+      console.error("Error capturing image:", err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //Delete Resume

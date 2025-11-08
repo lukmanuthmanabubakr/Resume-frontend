@@ -1,4 +1,5 @@
 import moment from "moment";
+import html2canvas from "html2canvas";
 
 export const validateEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,7 +22,7 @@ export const getLightColorFromImage = (imageUrl) => {
     }
 
     img.src = imageUrl;
-    img.upload = () => {
+    img.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
 
@@ -74,18 +75,44 @@ export const formatYearMonth = (yearMonth) => {
   return yearMonth ? moment(yearMonth, "YYYY-MM").format("MMM YYYY") : "";
 };
 
-export const fixTailwindColors = (element) => {
-  const style = window.getComputedStyle(el);
+// export const fixTailwindColors = (element) => {
+//   if (!element) return;
 
-  ["color", "backgroundColor", "borderColor"].forEach((prop) => {
-    const value = style(prop);
-    if (value.includes("oklch")) {
-      el.style[prop] = "#000";
-    }
+//   // Select all child elements recursively
+//   const elements = element.querySelectorAll("*");
+
+//   elements.forEach((el) => {
+//     const style = window.getComputedStyle(el);
+
+//     ["color", "backgroundColor", "borderColor"].forEach((prop) => {
+//       const value = style[prop];
+//       if (typeof value === "string" && value.includes("oklch")) {
+//         el.style[prop] = "#000"; // fallback to black if invalid color
+//       }
+//     });
+//   });
+// };
+
+//Convert component to image
+
+export const fixTailwindColors = (element) => {
+  if (!element) return;
+
+  const elements = element.querySelectorAll("*");
+
+  elements.forEach((el) => {
+    const style = window.getComputedStyle(el);
+    ["color", "backgroundColor", "borderColor"].forEach((prop) => {
+      const value = style[prop];
+      if (value?.includes("oklch")) {
+        el.style[prop] = prop === "backgroundColor" ? "#ffffff" : "#000000";
+      }
+    });
   });
 };
 
-//Convert component to image
+
+
 export async function captureElementAsImage(element) {
   if (!element) throw new Error("No Element Provided");
   const canvas = await html2canvas(element);
