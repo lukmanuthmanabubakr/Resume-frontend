@@ -461,7 +461,31 @@ const EditResume = () => {
   };
 
   //Upload thumbnail and resume profile img
-  const uploadResumeImages = async () => {};
+  const uploadResumeImages = async () => {
+    try {
+      setIsLoading(true);
+      fixTailwindColors(resumeRef.current);
+      const imageDataUrl = await captureElementAsImage(resumeRef.current);
+
+      //Convert base64 to file
+      const thumbnailFile = dataURLtoFile(
+        imageDataUrl,
+        `resume_${resumeId}.png`
+      );
+
+      const profileImageFile = resumeData?.profileInfo?.profileImg || null;
+
+      const formData = new FormData();
+      if (profileImageFile) formData.append("profileImage", profileImageFile);
+      if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+      const uploadResponse = await axiosInstance.put(
+        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      const
+    } catch (error) {}
+  };
 
   const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {};
 
