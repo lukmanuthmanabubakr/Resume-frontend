@@ -75,42 +75,41 @@ export const formatYearMonth = (yearMonth) => {
   return yearMonth ? moment(yearMonth, "YYYY-MM").format("MMM YYYY") : "";
 };
 
-// export const fixTailwindColors = (element) => {
-//   if (!element) return;
-
-//   // Select all child elements recursively
-//   const elements = element.querySelectorAll("*");
-
-//   elements.forEach((el) => {
-//     const style = window.getComputedStyle(el);
-
-//     ["color", "backgroundColor", "borderColor"].forEach((prop) => {
-//       const value = style[prop];
-//       if (typeof value === "string" && value.includes("oklch")) {
-//         el.style[prop] = "#000"; // fallback to black if invalid color
-//       }
-//     });
-//   });
-// };
-
-//Convert component to image
-
 export const fixTailwindColors = (element) => {
   if (!element) return;
 
-  const elements = element.querySelectorAll("*");
+  // Get all elements including the root element
+  const elements = [element, ...element.querySelectorAll("*")];
 
   elements.forEach((el) => {
     const style = window.getComputedStyle(el);
-    ["color", "backgroundColor", "borderColor"].forEach((prop) => {
+    
+    // Convert oklch colors to rgb/hex for each property
+    ["color", "backgroundColor", "borderColor", "borderTopColor", 
+     "borderRightColor", "borderBottomColor", "borderLeftColor",
+     "outlineColor", "textDecorationColor"].forEach((prop) => {
       const value = style[prop];
-      if (value?.includes("oklch")) {
-        el.style[prop] = prop === "backgroundColor" ? "#ffffff" : "#000000";
+      
+      if (value?.includes("oklch") || value?.includes("lab") || value?.includes("lch")) {
+        // Create a temporary element to get the browser-computed RGB value
+        const temp = document.createElement("div");
+        temp.style[prop] = value;
+        document.body.appendChild(temp);
+        const computed = window.getComputedStyle(temp)[prop];
+        document.body.removeChild(temp);
+        
+        // If conversion failed, use fallback colors
+        if (computed?.includes("oklch") || computed?.includes("lab")) {
+          el.style[prop] = prop.includes("background") || prop.includes("Background") 
+            ? "#ffffff" 
+            : "#000000";
+        } else {
+          el.style[prop] = computed;
+        }
       }
     });
   });
 };
-
 
 
 export async function captureElementAsImage(element) {

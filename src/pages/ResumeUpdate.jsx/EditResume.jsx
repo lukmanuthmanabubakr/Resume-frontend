@@ -466,47 +466,110 @@ const EditResume = () => {
   };
 
   //Upload thumbnail and resume profile img
+  // const uploadResumeImages = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     // Fix colors twice to be thorough
+  //     fixTailwindColors(resumeRef.current);
+  //     await new Promise((resolve) => setTimeout(resolve, 150)); // Wait for styles
+  //     fixTailwindColors(resumeRef.current);
+
+  //     const imageDataUrl = await captureElementAsImage(resumeRef.current);
+
+  //     //Convert base64 to file
+  //     const thumbnailFile = dataURLtoFile(
+  //       imageDataUrl,
+  //       `resume_${resumeId}.png`
+  //     );
+
+  //     const profileImageFile = resumeData?.profileInfo?.profileImg || null;
+
+  //     const formData = new FormData();
+  //     if (profileImageFile) formData.append("profileImage", profileImageFile);
+  //     if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+  //     const uploadResponse = await axiosInstance.put(
+  //       API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+  //       formData,
+  //       { headers: { "Content-Type": "multipart/form-data" } }
+  //     );
+  //     const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+  //     console.log("RESUME_DATA__", resumeData);
+
+  //     //Call the second API to update other resume data
+  //     await updateResumeDetails(thumbnailLink, profilePreviewUrl);
+
+  //     toast.success("Resume Update Successfully");
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     console.error("Error uploading images:", error);
+  //     toast.error("Failed to upload images");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
   const uploadResumeImages = async () => {
-    try {
-      setIsLoading(true);
-      // fixTailwindColors(resumeRef.current);
-      // const imageDataUrl = await captureElementAsImage(resumeRef.current);
+  try {
+    setIsLoading(true);
+    
+    console.log("Fixing Tailwind colors...");
+    fixTailwindColors(resumeRef.current);
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    fixTailwindColors(resumeRef.current);
+    
+    console.log("Capturing image...");
+    const imageDataUrl = await captureElementAsImage(resumeRef.current);
 
-      fixTailwindColors(resumeRef.current);
-      await new Promise((resolve) => setTimeout(resolve, 100)); // wait for 1 frame
-      const imageDataUrl = await captureElementAsImage(resumeRef.current);
+    console.log("Converting to file...");
+    const thumbnailFile = dataURLtoFile(
+      imageDataUrl,
+      `resume_${resumeId}.png`
+    );
 
-      //Convert base64 to file
-      const thumbnailFile = dataURLtoFile(
-        imageDataUrl,
-        `resume_${resumeId}.png`
-      );
+    const profileImageFile = resumeData?.profileInfo?.profileImg || null;
 
-      const profileImageFile = resumeData?.profileInfo?.profileImg || null;
-
-      const formData = new FormData();
-      if (profileImageFile) formData.append("profileImage", profileImageFile);
-      if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
-      const uploadResponse = await axiosInstance.put(
-        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
-      console.log("RESUME_DATA__", resumeData);
-
-      //Call the second API to update other resume data
-      await updateResumeDetails(thumbnailLink, profilePreviewUrl);
-
-      toast.success("Resume Update Successfully");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error uploading images:", error);
-      toast.error("Failed to upload images");
-    } finally {
-      setIsLoading(false);
+    const formData = new FormData();
+    if (profileImageFile) formData.append("profileImage", profileImageFile);
+    if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+    
+    console.log("Uploading images...");
+    const uploadResponse = await axiosInstance.post(  // Changed from PUT to POST
+      API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+      formData,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    
+    if (!uploadResponse.data) {
+      throw new Error("No data received from upload");
     }
-  };
+    
+    const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+    console.log("Images uploaded successfully");
+
+    console.log("Updating resume details...");
+    await updateResumeDetails(thumbnailLink, profilePreviewUrl);
+
+    toast.success("Resume Updated Successfully");
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    
+    if (error.response?.status === 404) {
+      toast.error("Upload endpoint not found. Please contact support.");
+    } else if (error.message.includes("oklch")) {
+      toast.error("Color format error. Please try again.");
+    } else if (error.response?.status === 413) {
+      toast.error("Image too large. Please use a smaller profile image.");
+    } else if (error.response?.status >= 500) {
+      toast.error("Server error. Please try again later.");
+    } else {
+      toast.error(error.message || "Failed to upload images");
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
     try {
@@ -657,6 +720,7 @@ const EditResume = () => {
 
           <div
             ref={resumeRef}
+            data-resume-root
             className="bg-white rounded-xl border border-purple-100 shadow-sm p-4 overflow-auto min-h-[400px]"
           >
             <RenderResume
