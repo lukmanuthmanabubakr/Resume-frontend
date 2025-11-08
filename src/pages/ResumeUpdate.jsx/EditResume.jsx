@@ -25,6 +25,7 @@ import ProjectsDetailForm from "./Forms/ProjectsDetailForm";
 import CertificationInfoForm from "./Forms/CertificationInfoForm";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 import RenderResume from "../../components/ResumeTemplates/RenderResume";
+import { captureElementAsImage, dataURLtoFile, fixTailwindColors } from "../../utils/helper";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -483,11 +484,25 @@ const EditResume = () => {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-      const
-    } catch (error) {}
+      const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+      console.log("RESUME_DATA__", resumeData);
+
+      //Call the second API to update other resume data
+      await updateResumeDetails(thumbnailLink, profilePreviewUrl);
+
+      toast.success("Resume Update Successfully");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      toast.error("Failed to upload images")
+    }finally{
+      setIsLoading(false)
+    }
   };
 
-  const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {};
+  const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
+    
+  };
 
   //Delete Resume
   const handleDeleteResume = async () => {};
