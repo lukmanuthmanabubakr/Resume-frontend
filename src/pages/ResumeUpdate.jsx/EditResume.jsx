@@ -30,6 +30,7 @@ import {
   dataURLtoFile,
   fixTailwindColors,
 } from "../../utils/helper";
+import ThemeSelector from "./ThemeSelector";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -398,17 +399,32 @@ const EditResume = () => {
   };
   //Update array item (like workexperince, skills etc...)
 
-  const updateArrayItem = (section, index, key, value) => {
+  // const updateArrayItem = (section, index, key, value) => {
+  //   setResumeData((prev) => {
+  //     const updatedArray = [...prev[section]];
+  //     updatedArray[index] = {
+  //       ...updatedArray[index],
+  //       [key]: value,
+  //     };
+  //     return {
+  //       ...prev,
+  //       [section]: updatedArray,
+  //     };
+  //   });
+  // };
+
+  const updateArrayItem = (field, index, key, value) => {
     setResumeData((prev) => {
-      const updatedArray = [...prev[section]];
-      updatedArray[index] = {
-        ...updatedArray[index],
-        [key]: value,
-      };
-      return {
-        ...prev,
-        [section]: updatedArray,
-      };
+      const newArray = [...prev[field]];
+
+      // ✅ If key is null → replace the item directly (used for interests)
+      if (key === null) {
+        newArray[index] = value;
+      } else {
+        newArray[index] = { ...newArray[index], [key]: value };
+      }
+
+      return { ...prev, [field]: newArray };
     });
   };
 
@@ -508,68 +524,68 @@ const EditResume = () => {
   //   }
   // };
 
-
   const uploadResumeImages = async () => {
-  try {
-    setIsLoading(true);
-    
-    console.log("Fixing Tailwind colors...");
-    fixTailwindColors(resumeRef.current);
-    await new Promise((resolve) => setTimeout(resolve, 150));
-    fixTailwindColors(resumeRef.current);
-    
-    console.log("Capturing image...");
-    const imageDataUrl = await captureElementAsImage(resumeRef.current);
+    try {
+      setIsLoading(true);
 
-    console.log("Converting to file...");
-    const thumbnailFile = dataURLtoFile(
-      imageDataUrl,
-      `resume_${resumeId}.png`
-    );
+      console.log("Fixing Tailwind colors...");
+      fixTailwindColors(resumeRef.current);
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      fixTailwindColors(resumeRef.current);
 
-    const profileImageFile = resumeData?.profileInfo?.profileImg || null;
+      console.log("Capturing image...");
+      const imageDataUrl = await captureElementAsImage(resumeRef.current);
 
-    const formData = new FormData();
-    if (profileImageFile) formData.append("profileImage", profileImageFile);
-    if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
-    
-    console.log("Uploading images...");
-    const uploadResponse = await axiosInstance.post(  // Changed from PUT to POST
-      API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-    
-    if (!uploadResponse.data) {
-      throw new Error("No data received from upload");
+      console.log("Converting to file...");
+      const thumbnailFile = dataURLtoFile(
+        imageDataUrl,
+        `resume_${resumeId}.png`
+      );
+
+      const profileImageFile = resumeData?.profileInfo?.profileImg || null;
+
+      const formData = new FormData();
+      if (profileImageFile) formData.append("profileImage", profileImageFile);
+      if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+
+      console.log("Uploading images...");
+      const uploadResponse = await axiosInstance.post(
+        // Changed from PUT to POST
+        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (!uploadResponse.data) {
+        throw new Error("No data received from upload");
+      }
+
+      const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+      console.log("Images uploaded successfully");
+
+      console.log("Updating resume details...");
+      await updateResumeDetails(thumbnailLink, profilePreviewUrl);
+
+      toast.success("Resume Updated Successfully");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error uploading images:", error);
+
+      if (error.response?.status === 404) {
+        toast.error("Upload endpoint not found. Please contact support.");
+      } else if (error.message.includes("oklch")) {
+        toast.error("Color format error. Please try again.");
+      } else if (error.response?.status === 413) {
+        toast.error("Image too large. Please use a smaller profile image.");
+      } else if (error.response?.status >= 500) {
+        toast.error("Server error. Please try again later.");
+      } else {
+        toast.error(error.message || "Failed to upload images");
+      }
+    } finally {
+      setIsLoading(false);
     }
-    
-    const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
-    console.log("Images uploaded successfully");
-
-    console.log("Updating resume details...");
-    await updateResumeDetails(thumbnailLink, profilePreviewUrl);
-
-    toast.success("Resume Updated Successfully");
-    navigate("/dashboard");
-  } catch (error) {
-    console.error("Error uploading images:", error);
-    
-    if (error.response?.status === 404) {
-      toast.error("Upload endpoint not found. Please contact support.");
-    } else if (error.message.includes("oklch")) {
-      toast.error("Color format error. Please try again.");
-    } else if (error.response?.status === 413) {
-      toast.error("Image too large. Please use a smaller profile image.");
-    } else if (error.response?.status >= 500) {
-      toast.error("Server error. Please try again later.");
-    } else {
-      toast.error(error.message || "Failed to upload images");
-    }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
     try {
@@ -649,7 +665,9 @@ const EditResume = () => {
               className="flex items-center justify-center gap-2 px-2 sm:px-3 py-2 text-sm font-medium bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 active:scale-[0.97] transition-all"
             >
               <LuTrash2 size={18} />
-              <span className="hidden sm:inline">Delete</span>
+              <span className="hidden sm:inline" onClick={handleDeleteResume}>
+                Delete
+              </span>
             </button>
 
             <button
@@ -732,6 +750,26 @@ const EditResume = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={openThemeSelector}
+        onClose={() => setOpenThemeSelector(false)}
+        title="Change Theme"
+      >
+        <div className="w-[90vw] h-[90vh]">
+          <ThemeSelector
+            selectedTheme={resumeData?.template}
+            setSelectedTheme={(value) =>
+              setResumeData((prevState) => ({
+                ...prevState,
+                template: value || prevState.template,
+              }))
+            }
+            resumeData={null}
+            onClose={() => setOpenThemeSelector(false)}
+          />
+        </div>
+      </Modal>
     </DashboardLayout>
   );
 };
