@@ -31,6 +31,7 @@ import {
   fixTailwindColors,
 } from "../../utils/helper";
 import ThemeSelector from "./ThemeSelector";
+import Modal from "../../components/Modal";
 const EditResume = () => {
   const { resumeId } = useParams();
   const navigate = useNavigate();
@@ -756,7 +757,7 @@ const EditResume = () => {
         onClose={() => setOpenThemeSelector(false)}
         title="Change Theme"
       >
-        <div className="w-[90vw] h-[90vh]">
+        <div className="w-[90vw] h-[80vh]">
           <ThemeSelector
             selectedTheme={resumeData?.template}
             setSelectedTheme={(value) =>
