@@ -755,11 +755,13 @@ const EditResume = () => {
       <Modal
         isOpen={openThemeSelector}
         onClose={() => setOpenThemeSelector(false)}
+        hideHeader={false} 
         title="Change Theme"
       >
         <div className="w-[90vw] h-[80vh]">
           <ThemeSelector
             selectedTheme={resumeData?.template}
+            
             setSelectedTheme={(value) =>
               setResumeData((prevState) => ({
                 ...prevState,
