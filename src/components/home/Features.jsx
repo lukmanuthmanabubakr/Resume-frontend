@@ -1,6 +1,6 @@
 import React from "react";
-import { Zap } from "lucide-react"; 
-
+import { Zap } from "lucide-react";
+import Title from "./Title";
 
 const Features = () => {
   return (
@@ -9,7 +9,7 @@ const Features = () => {
       className="flex flex-col items-center my-10 scroll-mt-12"
     >
       <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10 rounded-full px-4 py-1 mb-8">
-        <Zap width={14}/>
+        <Zap width={14} />
         <span>Resume Boost</span>
       </div>
       <style>{`
@@ -17,13 +17,11 @@ const Features = () => {
         * { font-family: 'Poppins', sans-serif; }
       `}</style>
 
-      <h1 className="text-3xl font-semibold text-center mx-auto text-slate-800">
-        BuildIt Features
-      </h1>
-      <p className="text-sm text-slate-500 text-center mt-2 max-w-md mx-auto">
-        Everything you need to create professional, ATS-friendly resumes in
-        minutes.
-      </p>
+      <Title
+        title="Build your resume"
+        description=" Everything you need to create professional, ATS-friendly resumes in
+        minutes."
+      />
 
       <div className="flex items-center justify-center flex-wrap gap-6 mt-20 px-4 md:px-0">
         {/* Feature 1 */}
