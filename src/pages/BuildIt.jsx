@@ -135,7 +135,13 @@ const BuildIt = () => {
             </div>
           </div>
           {/* Right form - Output details */}
-          <div></div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+                <div>
+                  {/* Buttons */}
+                </div>
+
+                {/* Resume preview */}
+          </div>
         </div>
       </div>
     </div>
