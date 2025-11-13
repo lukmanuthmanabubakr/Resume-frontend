@@ -5,21 +5,20 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
+
   const [allResumes, setAllResumes] = useState([]);
   const [showCreateResume, setShowCreateResume] = useState(false);
   const [showUploadResume, setShowUploadResume] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteResumeId, setDeleteResumeId] = useState(null);
   const [title, setTitle] = useState("");
   const [resume, setResume] = useState(null);
   const [editResumeId, setEditResumeId] = useState("");
+
   const navigate = useNavigate();
 
   const loadAllResumes = async () => {
     setAllResumes(dummyResumeData);
-  };
-
-  const handleEdit = (id) => {
-    console.log("Edit resume:", id);
-    // Add your edit logic here
   };
 
   const handleDelete = (id) => {
@@ -40,6 +39,13 @@ const Dashboard = () => {
   };
   const editTitle = async (event) => {
     event.preventDefault();
+  };
+  const deleteResume = async () => {
+    setAllResumes((prev) =>
+      prev.filter((resume) => resume._id !== deleteResumeId)
+    );
+    setShowDeleteConfirm(false);
+    setDeleteResumeId(null);
   };
 
   useEffect(() => {
@@ -206,9 +212,9 @@ const Dashboard = () => {
                     </button>
 
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(resume.id);
+                      onClick={() => {
+                        setDeleteResumeId(resume._id);
+                        setShowDeleteConfirm(true);
                       }}
                       className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
                       style={{
@@ -361,6 +367,56 @@ const Dashboard = () => {
               />
             </div>
           </form>
+        )}
+
+        {showDeleteConfirm && (
+          <div
+            onClick={() => setShowDeleteConfirm(false)}
+            className="fixed inset-0 bg-black/70 backdrop-blur z-50 flex items-center justify-center"
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-white border shadow-xl rounded-xl w-full max-w-md p-6"
+            >
+              <div className="flex items-center justify-center w-14 h-14 mx-auto mb-4 bg-red-100 rounded-full">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="2"
+                >
+                  <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <path d="M10 11v6M14 11v6" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold mb-2 text-center text-gray-900">
+                Delete Resume?
+              </h2>
+              <p className="text-gray-600 text-center mb-6">
+                Are you sure you want to delete this resume? This action cannot
+                be undone.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowDeleteConfirm(false);
+                    setDeleteResumeId(null);
+                  }}
+                  className="flex-1 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                >
+                  No, Cancel
+                </button>
+                <button
+                  onClick={deleteResume}
+                  className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                >
+                  Yes, Delete
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
