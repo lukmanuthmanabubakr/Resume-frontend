@@ -13,6 +13,7 @@ import {
   User,
 } from "lucide-react";
 import PersonalInfoForm from "../components/PersonalInfoForm";
+import ResumePreview from "../components/ResumePreview";
 
 const BuildIt = () => {
   const { resumeId } = useParams();
@@ -128,7 +129,8 @@ const BuildIt = () => {
                         personal_info: data,
                       }))
                     }
-                    removeBackground={removeBackground} setRemoveBackground={setRemoveBackground}
+                    removeBackground={removeBackground}
+                    setRemoveBackground={setRemoveBackground}
                   />
                 )}
               </div>
@@ -136,11 +138,9 @@ const BuildIt = () => {
           </div>
           {/* Right form - Output details */}
           <div className="lg:col-span-7 max-lg:mt-6">
-                <div>
-                  {/* Buttons */}
-                </div>
+            <div>{/* Buttons */}</div>
 
-                {/* Resume preview */}
+            <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color}/>
           </div>
         </div>
       </div>
