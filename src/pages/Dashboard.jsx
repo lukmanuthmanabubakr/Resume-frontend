@@ -38,6 +38,9 @@ const Dashboard = () => {
     setShowUploadResume(false);
     navigate("/app/builder/res123");
   };
+  const editTitle = async (event) => {
+    event.preventDefault();
+  };
 
   useEffect(() => {
     loadAllResumes();
@@ -174,11 +177,14 @@ const Dashboard = () => {
 
                 {/* Hover Overlay with Actions */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-4">
-                  <div className="flex items-center gap-2">
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="flex items-center gap-2"
+                  >
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEdit(resume.id);
+                      onClick={() => {
+                        setEditResumeId(resume._id);
+                        setTitle(resume.title);
                       }}
                       className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
                       style={{
@@ -325,8 +331,8 @@ const Dashboard = () => {
 
         {editResumeId && (
           <form
-            onSubmit={editTile}
-            onClick={() => setEditResumeId(false)}
+            onSubmit={editTitle}
+            onClick={() => setEditResumeId("")}
             className="fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center"
           >
             <div
@@ -344,12 +350,12 @@ const Dashboard = () => {
                 required
               />
               <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-gray-700 transition-colors">
-                Create Resume
+                Update
               </button>
               <XIcon
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
                 onClick={() => {
-                  setShowCreateResume(false);
+                  setEditResumeId("");
                   setTitle("");
                 }}
               />
