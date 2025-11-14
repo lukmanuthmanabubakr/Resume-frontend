@@ -95,7 +95,15 @@ const BuildIt = () => {
                       setResumeData((prev) => ({ ...prev, template }))
                     }
                   />
-                  <ColorPicker />
+                  <ColorPicker
+                    selectedColor={resumeData.accent_color}
+                    onChange={(color) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        accent_color: color,
+                      }))
+                    }
+                  />
                 </div>
                 <div className="flex items-center">
                   {activeSectionIndex !== 0 && (
