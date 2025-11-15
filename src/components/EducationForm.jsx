@@ -25,15 +25,15 @@ const EducationForm = ({ data, onChange }) => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-            Professional Experience
+            Education
           </h3>
-          <p className="text-sm text-gray-500">Add your job experience</p>
+          <p className="text-sm text-gray-500">Add your education details</p>
         </div>
         <button
-          onClick={addExperience}
+          onClick={addEducation}
           className="flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
         >
-          <Plus className="size-4" /> Add Experience
+          <Plus className="size-4" /> Add Education
         </button>
       </div>
 
@@ -41,8 +41,8 @@ const EducationForm = ({ data, onChange }) => {
         <div className="text-center py-8 text-gray-500">
           <Briefcase className="w-12 h-12 mx-auto mb-3 text-gray-300" />
 
-          <p>No work experience added yet.</p>
-          <p className="text-sm">Click "Add Experience" to get started.</p>
+          <p>No education addded yet.</p>
+          <p className="text-sm">Click "Add Education" to get started.</p>
         </div>
       ) : (
         <div className="space-y-4">
