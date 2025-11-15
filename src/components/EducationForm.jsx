@@ -1,28 +1,25 @@
-import { Briefcase, Plus, Sparkles, Trash2 } from "lucide-react";
 import React from "react";
 
-const ExperienceForm = ({ data, onChange }) => {
-  const addExperience = () => {
-    const newExperience = {
-      company: "",
-      position: "",
-      start_date: "",
-      end_date: "",
-      description: "",
-      is_current: false,
+const EducationForm = ({ data, onChange }) => {
+  const addEducation = () => {
+    const newEducation = {
+      institution: "",
+      degree: "",
+      field: "",
+      graduation_date: "",
+      gpa: "",
     };
-    onChange([...data, newExperience]);
+    onChange([...data, newEducation]);
   };
-  const removeExperience = (index) => {
+  const removeEducation = (index) => {
     const updated = data.filter((_, i) => i !== index);
     onChange(updated);
   };
-  const updateExperience = (index, field, value) => {
+  const updateEducation = (index, field, value) => {
     const updated = [...data];
     updated[index] = { ...updated[index], [field]: value };
     onChange(updated);
   };
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -147,4 +144,4 @@ const ExperienceForm = ({ data, onChange }) => {
   );
 };
 
-export default ExperienceForm;
+export default EducationForm;
