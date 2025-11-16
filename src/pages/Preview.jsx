@@ -5,7 +5,7 @@ const Preview = () => {
   const { resumeId } = useParams;
   const [resumeData, setResumeData] = useState(null);
   const loadResume = async () => {
-    
+    setResumeData()
   }
   return <div>Preview Page</div>;
 };
