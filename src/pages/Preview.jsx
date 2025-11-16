@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const Preview = () => {
   const { resumeId } = useParams;
   const [resumeData, setResumeData] = useState(null);
-  const loadResume = async (params) => {
+  const loadResume = async () => {
     
   }
   return <div>Preview Page</div>;
