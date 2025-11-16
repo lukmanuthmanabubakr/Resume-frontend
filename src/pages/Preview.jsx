@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Preview = () => {
-  const 
+  const {resumeId}
   return (
     <div>Preview Page</div>
   )
