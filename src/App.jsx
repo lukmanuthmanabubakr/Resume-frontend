@@ -18,7 +18,6 @@ const App = () => {
       </Route>
 
       <Route path="/view/:resumeId" element={<Preview />} />
-      <Route path="/signin" element={<Login />} />
     </Routes>
   );
 };
