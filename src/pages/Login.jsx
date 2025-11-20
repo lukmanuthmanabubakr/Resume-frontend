@@ -91,7 +91,7 @@ const Login = () => {
           type="submit"
           className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity"
         >
-          {state === "login" ? "Login" : "Sign up"}
+          {state === "login" ? "Login" : "Register"}
         </button>
         <p
           onClick={() =>
