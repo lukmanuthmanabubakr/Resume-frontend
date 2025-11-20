@@ -7,6 +7,7 @@ import BuildIt from "./pages/BuildIt";
 import Preview from "./pages/Preview";
 import Login from "./pages/Login";
 import { useDispatch } from "react-redux";
+import api from "./configs/api";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const App = () => {
     const token = localStorage.getItem('token')
     try {
       if(token) {
-        
+        const {data} = await api.get('/api/users/data')
       }
     } catch (error) {
       
