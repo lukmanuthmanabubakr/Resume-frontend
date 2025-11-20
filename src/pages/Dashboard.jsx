@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { dummyResumeData } from "../assets/assets";
-import { UploadCloud, XIcon } from "lucide-react";
+import { LoaderCircleIcon, UploadCloud, XIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../configs/api";
 import pdfToText from "react-pdftotext";
 import toast from "react-hot-toast";
-
 
 const Dashboard = () => {
   const { user, token } = useSelector((state) => state.auth);
@@ -26,7 +25,16 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const loadAllResumes = async () => {
-    setAllResumes(dummyResumeData);
+    try {
+      const { data } = await api.get("/api/users/resumes", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setAllResumes(data.resumes);
+    } catch (error) {
+      toast(error?.response?.data?.message || error.message);
+    }
   };
 
   const handleDelete = (id) => {
@@ -55,6 +63,7 @@ const Dashboard = () => {
       toast(error?.response?.data?.message || error.message);
     }
   };
+
   const uploadResume = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -78,15 +87,46 @@ const Dashboard = () => {
     }
     setIsLoading(false);
   };
+
   const editTitle = async (event) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
+      const { data } = await api.put(
+        `/api/resumes/update`,
+        { resumeId: editResumeId, resumeData: { title } },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setAllResumes(
+        allResumes.map((resume) =>
+          resume._id === editResumeId ? { ...resume, title } : resume
+        )
+      );
+      setTitle("");
+      setEditResumeId("");
+      toast.success(data.message);
+    } catch (error) {
+      toast(error?.response?.data?.message || error.message);
+    }
   };
-  const deleteResume = async () => {
-    setAllResumes((prev) =>
-      prev.filter((resume) => resume._id !== deleteResumeId)
-    );
-    setShowDeleteConfirm(false);
-    setDeleteResumeId(null);
+
+  const deleteResume = async (resumeId) => {
+    try {
+      const { data } = await api.delete(`/api/resumes/delete/${resumeId}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setAllResumes(allResumes.filter((resume) => resume._id !== resumeId));
+      toast.success(data.message);
+      setShowDeleteConfirm(false);
+      setDeleteResumeId(null);
+    } catch (error) {
+      toast(error?.response?.data?.message || error.message);
+    }
   };
 
   useEffect(() => {
@@ -99,7 +139,7 @@ const Dashboard = () => {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Welcome back, David!
+              Welcome back, {user?.name}!
             </h1>
           </div>
           <p className="text-gray-600">
@@ -362,8 +402,14 @@ const Dashboard = () => {
                   onChange={(e) => setResume(e.target.files[0])}
                 />
               </div>
-              <button className="w-full py-2 bg-green-600 text-white rounded hover:bg-gray-700 transition-colors">
-                Upload Resume
+              <button
+                disabled={isLoading}
+                className="w-full py-2 bg-green-600 text-white rounded hover:bg-gray-700 transition-colors flex items-center justify-center gap-2"
+              >
+                {isLoading && (
+                  <LoaderCircleIcon className="animate-spin size-4 text-white" />
+                )}
+                {isLoading ? "Uploading..." : "Upload Resume"}
               </button>
               <XIcon
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
@@ -450,7 +496,7 @@ const Dashboard = () => {
                   No, Cancel
                 </button>
                 <button
-                  onClick={deleteResume}
+                  onClick={() => deleteResume(deleteResumeId)} // ✅ Fixed
                   className="flex-1 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
                 >
                   Yes, Delete
