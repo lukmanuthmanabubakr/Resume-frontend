@@ -45,13 +45,13 @@ const Hero = () => {
 
           <div className="hidden lg:flex items-center gap-3">
             <Link
-              to="/app?state=signin"
+              to="/app?state=login"
               className="px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-green-700 transition"
             >
               Sign In
             </Link>
             <Link
-              to="/app?state=signup"
+              to="/app?state=register"
               className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition shadow-lg shadow-green-600/20 hover:shadow-green-600/30"
             >
               Get Started Free
