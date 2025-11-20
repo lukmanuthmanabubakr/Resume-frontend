@@ -58,7 +58,9 @@ const BuildIt = () => {
         document.title = data.resume.title;
       }
     } catch (error) {
-      toast(error?.response?.data?.message || error.message);
+      // toast(error?.response?.data?.message || error.message);
+      console.log(error.message);
+      
     }
   };
 
