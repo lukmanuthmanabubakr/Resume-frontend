@@ -1,7 +1,11 @@
 import { Briefcase, Plus, Sparkles, Trash2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ExperienceForm = ({ data, onChange }) => {
+  const { token } = useSelector((state) => state.auth);
+  const [generatingIndex, setGeneratingIndex] = useState(-1);
+
   const addExperience = () => {
     const newExperience = {
       company: "",
@@ -22,6 +26,12 @@ const ExperienceForm = ({ data, onChange }) => {
     updated[index] = { ...updated[index], [field]: value };
     onChange(updated);
   };
+
+  const generateDescription = async (index) => {
+    setGeneratingIndex(index)
+    const experience = data[index]
+    
+  }
 
   return (
     <div className="space-y-6">
