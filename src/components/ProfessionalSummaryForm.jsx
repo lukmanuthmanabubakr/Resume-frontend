@@ -11,7 +11,17 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
   const generateSummary = async (params) => {
     try {
       setIsGenerating(true);
-      const prompt = `enhance my professional summary "${data}"`;
+      // const prompt = `enhance my professional summary "${data}"`;
+
+      const prompt = `
+Rewrite this professional summary clearly and naturally. 
+Do NOT add generic phrases like "Results-driven", "Highly motivated",
+"Accomplished", or any resume buzzwords. 
+Keep my tone, keep my meaning—just make it cleaner.
+
+Text: "${data}"
+`;
+
       const response = await api.post(
         "/api/ai/enhance-pro-sum",
         { userContent: prompt },
