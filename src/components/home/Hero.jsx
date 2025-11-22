@@ -214,7 +214,12 @@ const Hero = () => {
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                   </Link>
-                  <button className="flex items-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-300 transition shadow-sm">
+                  <a
+                    href="https://www.youtube.com/watch?v=kkfxIrkxe_E&t=49s"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-medium rounded-xl border border-gray-300 transition shadow-sm"
+                  >
                     <svg
                       width="20"
                       height="20"
@@ -224,7 +229,7 @@ const Hero = () => {
                       <path d="M8 5v14l11-7z" />
                     </svg>
                     Watch Demo
-                  </button>
+                  </a>
                 </div>
 
                 {/* Social Proof */}
