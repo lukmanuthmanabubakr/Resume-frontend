@@ -126,8 +126,8 @@ const authSlice = createSlice({
     token: null,
     user: null,
     resumes: [],
-    loading: false, // For button loading states
-    initialLoading: true, // For initial app loading
+    loading: false,
+    initialLoading: true,
     error: null,
     isAuthenticated: false,
   },
