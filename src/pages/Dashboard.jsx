@@ -201,14 +201,14 @@ const Dashboard = () => {
 
         <hr className="border-slate-300 my-6 sm:w-[305px]" />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {allResumes.map((resume, index) => {
             const baseColor = colors[index % colors.length];
             return (
               <div
                 onClick={() => navigate(`/app/builder/${resume._id}`)}
-                key={resume.id}
-                className="group relative bg-white rounded-xl overflow-hidden border-2 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer"
+                key={resume._id}
+                className="group relative bg-white rounded-xl overflow-hidden border-2 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer mx-auto w-full max-w-[280px] sm:max-w-none"
                 style={{
                   borderColor: baseColor + "30",
                   aspectRatio: "8.5 / 11",
@@ -216,54 +216,58 @@ const Dashboard = () => {
               >
                 {/* Resume Header with Color */}
                 <div
-                  className="h-16 relative overflow-hidden"
+                  className="h-12 sm:h-16 relative overflow-hidden"
                   style={{
                     background: `linear-gradient(135deg, ${baseColor}20, ${baseColor}50)`,
                   }}
                 >
                   <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-2 left-2 right-2 h-1 bg-white rounded-full" />
-                    <div className="absolute top-5 left-2 w-20 h-1 bg-white rounded-full" />
+                    <div className="absolute top-4 sm:top-5 left-2 w-16 sm:w-20 h-1 bg-white rounded-full" />
                   </div>
                 </div>
 
                 {/* Resume Content Area */}
-                <div className="p-4 flex flex-col h-[calc(100%-4rem)]">
+                <div className="p-3 sm:p-4 flex flex-col h-[calc(100%-3rem)] sm:h-[calc(100%-4rem)]">
                   {/* Mock Resume Lines */}
-                  <div className="space-y-2 mb-4 flex-grow">
+                  <div className="space-y-1.5 sm:space-y-2 mb-3 sm:mb-4 flex-grow">
                     <div
-                      className="h-2 rounded-full"
+                      className="h-1.5 sm:h-2 rounded-full"
                       style={{ background: baseColor + "40", width: "80%" }}
                     />
                     <div
-                      className="h-2 rounded-full"
+                      className="h-1.5 sm:h-2 rounded-full"
                       style={{ background: baseColor + "20", width: "60%" }}
                     />
-                    <div className="h-1 bg-gray-200 rounded-full w-full mt-3" />
-                    <div className="h-1.5 bg-gray-100 rounded-full w-full" />
-                    <div className="h-1.5 bg-gray-100 rounded-full w-11/12" />
-                    <div className="h-1.5 bg-gray-100 rounded-full w-10/12" />
-                    <div className="h-1 bg-gray-200 rounded-full w-full mt-2" />
-                    <div className="h-1.5 bg-gray-100 rounded-full w-full" />
-                    <div className="h-1.5 bg-gray-100 rounded-full w-9/12" />
+                    <div className="h-0.5 sm:h-1 bg-gray-200 rounded-full w-full mt-2 sm:mt-3" />
+                    <div className="h-1 sm:h-1.5 bg-gray-100 rounded-full w-full" />
+                    <div className="h-1 sm:h-1.5 bg-gray-100 rounded-full w-11/12" />
+                    <div className="h-1 sm:h-1.5 bg-gray-100 rounded-full w-10/12" />
+                    <div className="h-0.5 sm:h-1 bg-gray-200 rounded-full w-full mt-1.5 sm:mt-2" />
+                    <div className="h-1 sm:h-1.5 bg-gray-100 rounded-full w-full" />
+                    <div className="h-1 sm:h-1.5 bg-gray-100 rounded-full w-9/12" />
                   </div>
 
-                  {/* Resume Title */}
+                  {/* Resume Title and Date */}
                   <div className="mt-auto">
                     <h3
-                      className="text-xs font-semibold mb-1 truncate group-hover:scale-105 transition-transform"
+                      className="text-xs sm:text-sm font-semibold mb-0.5 sm:mb-1 truncate group-hover:scale-105 transition-transform"
                       style={{ color: baseColor }}
                     >
                       {resume.title}
                     </h3>
-                    <p className="text-[10px] text-gray-400">
-                      {new Date(resume.updatedAt).toLocaleDateString()}
+                    <p className="text-[9px] sm:text-[10px] text-gray-400">
+                      {new Date(resume.updatedAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
                 </div>
 
                 {/* Hover Overlay with Actions */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-3 sm:pb-4">
                   <div
                     onClick={(e) => e.stopPropagation()}
                     className="flex items-center gap-2"
@@ -273,15 +277,16 @@ const Dashboard = () => {
                         setEditResumeId(resume._id);
                         setTitle(resume.title);
                       }}
-                      className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
+                      className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
                       style={{
                         color: baseColor,
                       }}
                       title="Edit Resume"
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
+                        className="sm:w-4 sm:h-4"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -297,15 +302,16 @@ const Dashboard = () => {
                         setDeleteResumeId(resume._id);
                         setShowDeleteConfirm(true);
                       }}
-                      className="flex items-center justify-center w-9 h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
+                      className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-white/95 backdrop-blur-sm shadow-lg hover:scale-110 active:scale-95 transition-all duration-200"
                       style={{
                         color: "#dc2626",
                       }}
                       title="Delete Resume"
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
+                        className="sm:w-4 sm:h-4"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
