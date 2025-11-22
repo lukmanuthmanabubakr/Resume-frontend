@@ -6,62 +6,56 @@ import Dashboard from "./pages/Dashboard";
 import BuildIt from "./pages/BuildIt";
 import Preview from "./pages/Preview";
 import Login from "./pages/Login";
-import { useDispatch } from "react-redux";
-import api from "./configs/api";
-import { login, setLoading } from "./app/features/authSlice";
+import Register from "./pages/Register";
+import CheckVerEmail from "./pages/CheckVerEmail";
+import Loader from "./components/Loader";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "./app/features/authSlice";
 import { Toaster } from "react-hot-toast";
+import ForgetPassword from "./pages/ForgetPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const dispatch = useDispatch();
-  const getUserData = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      if (token) {
-        const { data } = await api.get("/api/users/data", {
-          headers: { Authorization: token },
-        });
-        if (data.user) {
-          dispatch(login({ token, user: data.user }));
-        }
-        dispatch(setLoading(false));
-      } else {
-        dispatch(setLoading(false));
-      }
-    } catch (error) {
-      dispatch(setLoading(false));
-      console.log(error.message);
-    }
-  };
+  const { initialLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    getUserData();
-  }, []);
+    dispatch(getUserData());
+  }, [dispatch]);
+
+  if (initialLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/app" element={<Layout />}>
+        {/* Protected Routes */}
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="builder/:resumeId" element={<BuildIt />} />
         </Route>
 
         <Route path="/view/:resumeId" element={<Preview />} />
-        <Route path="login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/check-email" element={<CheckVerEmail />} />
+        <Route path="/forgot-password" element={<ForgetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </>
   );
 };
 
 export default App;
-
-// import React from 'react'
-
-// const App = () => {
-//   return (
-//     <div>App</div>
-//   )
-// }
-
-// export default App
