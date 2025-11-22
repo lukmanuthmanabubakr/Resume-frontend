@@ -10,9 +10,7 @@ export const registerUser = createAsyncThunk(
       const { data } = await api.post("/api/users/register", userData);
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -26,9 +24,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem("token", data.token);
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -48,9 +44,7 @@ export const getUserData = createAsyncThunk(
       return { token, user: data.user };
     } catch (error) {
       localStorage.removeItem("token");
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -61,11 +55,13 @@ export const verifyEmail = createAsyncThunk(
   async (token, { rejectWithValue }) => {
     try {
       const { data } = await api.get(`/api/users/verify/${token}`);
+      // Store token in localStorage for auto-login
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -78,9 +74,7 @@ export const forgotPassword = createAsyncThunk(
       const { data } = await api.post("/api/users/forgot-password", { email });
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -95,9 +89,7 @@ export const resetPassword = createAsyncThunk(
       });
       return data;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -113,9 +105,7 @@ export const getUserResumes = createAsyncThunk(
       });
       return data.resumes;
     } catch (error) {
-      return rejectWithValue(
-        error?.response?.data?.message || error.message
-      );
+      return rejectWithValue(error?.response?.data?.message || error.message);
     }
   }
 );
@@ -217,6 +207,12 @@ const authSlice = createSlice({
       })
       .addCase(verifyEmail.fulfilled, (state, action) => {
         state.loading = false;
+        // Auto-login the user
+        if (action.payload.token && action.payload.user) {
+          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.isAuthenticated = true;
+        }
         toast.success(action.payload.message);
       })
       .addCase(verifyEmail.rejected, (state, action) => {

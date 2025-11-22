@@ -15,6 +15,7 @@ import { getUserData } from "./app/features/authSlice";
 import { Toaster } from "react-hot-toast";
 import ForgetPassword from "./pages/ForgetPassword";
 import ResetPassword from "./pages/ResetPassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/check-email" element={<CheckVerEmail />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
+                <Route path="/verify/:token" element={<VerifyEmail />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
     </>

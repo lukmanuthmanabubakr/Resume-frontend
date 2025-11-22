@@ -46,26 +46,22 @@ const Hero = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
+            {/* Sign In button: hide on small screens and if user is logged in */}
+            {!user && (
+              <Link
+                to="/login"
+                className="px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-green-700 transition"
+              >
+                Sign In
+              </Link>
+            )}
+
+            {/* Get Started / Dashboard button */}
             <Link
-              to="/login"
-              className="px-5 py-2.5 text-sm font-medium text-gray-700 hover:text-green-700 transition"
-              hidden={user}
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
+              to={user ? "/app" : "/register"} // dashboard if logged in, otherwise register
               className="px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-full transition shadow-lg shadow-green-600/20 hover:shadow-green-600/30"
-              hidden={user}
             >
-              Get Started Free
-            </Link>
-            <Link
-              to="/app"
-              className="hidden md:block px-8 py-2 bg-green-500 hover:bg-green-700 active:scale-95 transition-all rounded-full text-white"
-              hidden={!user}
-            >
-              Dashboard
+              {user ? "Dashboard" : "Get Started Free"}
             </Link>
           </div>
 
@@ -134,24 +130,32 @@ const Hero = () => {
                 </a>
               </div>
               <div className="mt-auto flex flex-col gap-3">
-                <Link
-                  to="/app?state=signin"
-                  className="px-4 py-3 text-center text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/app?state=register"
-                  className="px-4 py-3 text-center bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-                >
-                  Get Started Free
-                </Link>
-                <Link
-                  to="/app"
-                  className="hidden md:block px-8 py-2 bg-green-500 hover:bg-green-700 active:scale-95 transition-all rounded-full text-white"
-                >
-                  Dashboard
-                </Link>
+                {user ? (
+                  <Link
+                    to="/app"
+                    className="px-4 py-3 text-center bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="px-4 py-3 text-center text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="px-4 py-3 text-center bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      Get Started Free
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
