@@ -145,6 +145,16 @@ const ModernTemplate = ({ data, accentColor }) => {
                       </h3>
                     </div>
                   </div>
+                  {p.link && (
+                    <a
+                      href={p.link}
+                      target="_blank"
+                      className="text-sm mt-2 inline-block break-all"
+                      style={{ color: accentColor }}
+                    >
+                      {p.link}
+                    </a>
+                  )}
                   {p.description && (
                     <div className="text-gray-700 leading-relaxed text-sm mt-3">
                       {p.description}
